@@ -6,7 +6,7 @@
 
 本番公開は別判定です。Ghost／Stripe／Google Workspaceの実接続、AT-01〜45、DEC-01〜21、法務・権利・保存期間、実機quota・通知・復元の証跡が未完了なので、production release gateは意図どおり`NO_GO`です。
 
-このチェックポイントでは、Ghost／Stripe／Google Workspaceへの接続、`clasp login`／`clasp push`、実決済、本番公開を実施していません。一回限りの公開`main`修復は完了済みであり、再実行しません。次はGate 0の意思決定、Gate 1の所有者・復旧担当、Gate 2の秘密情報境界を責任者と確定する段階です。3 Gateの後にだけtest専用環境へ接続します。
+このチェックポイントでは、Ghost／Stripe／Google Workspaceへの接続、`clasp login`／`clasp push`、実決済、本番公開を実施していません。一回限りの公開`main`修復は完了済みであり、再実行しません。次は`G0-T`のtest適用判断、Gate 1の所有者・復旧担当、Gate 2の秘密情報境界を責任者と確定する段階です。完全なGate 0はOPENのまま、3条件の後にだけ架空データ／ダミー教材のtest専用環境へ接続します。
 
 ## ユーザーが担当する操作
 
@@ -90,11 +90,11 @@ Ghost ZIP SHA-256は `a2c869ba10a7673a2a9ca3b9b7b52bf8e077f8e3583d5db069a7cf8ebe
 ## 次の安全な順序
 
 1. 接続開始直前にremote `main`、最新CI、保護・Actions・security設定をread-onlyで再取得する。公開履歴修復は完了済みなので再実行しない。
-2. Gate 0としてDEC-01〜21の該当判断、MVP境界、既知制約の受容を責任者が確定する。
+2. `G0-T`として要件書20.1のDEC、test専用資源、架空データ、ダミー教材、非公開、`manualSync()`1回と必要時の一時`resumeSync`だけの境界を責任者が確定する。要件書20.2のDECは本番blockerとして残し、Gate 0を完了扱いにしない。
 3. Gate 1のサービス所有者・復旧担当・権限分担と、Gate 2の秘密情報の最小権限・保管・失効境界を確定する。
 4. `docs/runbooks/connection-handoff.md`の4行の準備完了だけを責任者へ一度に確認する。
 5. 本人がGhost／Stripe／Googleへログインし、2FA、Custom Integration、restricted test key、Google OAuthを各サービス画面内で完了する。秘密値をチャットへ送らない。
-6. Codexは認証後、test専用Apps Script／Spreadsheet／Formへdeployし、scheduled triggerを作らず`manualSync()`を1回実行する。
+6. Codexは認証後、test専用Apps Script／Spreadsheet／Formへdeployし、`installMinhosTriggers()`は実行せず`manualSync()`を1回実行する。時間上限時の一時`resumeSync`だけを許可する。環境／Account／allowlist／schema、通知、backup／restoreを確認し、trigger前のP1/P2が0になった後だけ、5つの永続triggerを別承認する。
 7. Ghost test siteへthemeとroutesを別々に適用し、状態別表示と公開面漏えいを確認する。
 8. test modeのAT証跡とDECを記録し、Gate 3のtest接続で発生したP1/P2が0の時だけ本番Go/No-Goへ進む。
 
@@ -121,4 +121,4 @@ Ghost ZIP SHA-256は `a2c869ba10a7673a2a9ca3b9b7b52bf8e077f8e3583d5db069a7cf8ebe
 
 ## 次回Codexへ送る短い再開プロンプト
 
-> `AGENTS.md`、`docs/engineering/resume-handoff.md`、要件定義書v1.1を順に読み、コード／GitHub側Goalは完了済み、外部Gate 0開始前、productionは`NO_GO`と認識してください。最初にremote `main`、到達履歴のidentity、最新CI、GitHub保護状態をread-onlyで再取得し、公開履歴修復は再実行しないでください。外部接続を始める依頼がある場合だけGate 0の判断、Gate 1の所有者、Gate 2の秘密境界を確定し、その後`docs/runbooks/connection-handoff.md`の4行を一括確認してtest環境から進めてください。本番SaaSはGateと本人承認を満たすまで変更しないでください。
+> `AGENTS.md`、`docs/engineering/resume-handoff.md`、要件定義書v1.1を順に読み、コード／GitHub側Goalは完了済み、外部Gate 0はOPEN、productionは`NO_GO`と認識してください。最初にremote `main`、到達履歴のidentity、最新CI、GitHub保護状態をread-onlyで再取得し、公開履歴修復は再実行しないでください。外部接続を始める依頼がある場合だけ`G0-T`のtest判断、Gate 1の所有者、Gate 2の秘密境界を確定し、その後`docs/runbooks/connection-handoff.md`の4行を一括確認してください。`G0-T`中は架空会員・ダミー教材・test専用資源・非公開・初回`manualSync()`と必要時の一時`resumeSync`だけに限定し、trigger前のP1/P2が0になった後だけ5つの永続triggerを別承認してください。本番SaaSはGateと本人承認を満たすまで変更しないでください。

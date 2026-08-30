@@ -13,6 +13,16 @@ Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSの接続を段階的
 3. `docs/engineering/progress-log.md` に承認者、日時、証跡場所を記録する。
 4. 未確定のMUSTまたはローンチ必須DECがあれば No-Go とする。
 
+### G0-T — 限定test entry（Gate 0完了ではない）
+
+要件書20.1の`DEC-01`〜`DEC-08`、`DEC-19`、`DEC-21`を確定し、Gate 1とGate 2が完了した場合に限り、要件書20.2の本番必須DECを未決のまま隔離testへ進める。`G0-T`は`G0 Decision`の完了、production承認、または未決DECの受容を意味しない。
+
+- test用Ghost site、Stripe test mode、test専用Standalone Apps Script／Spreadsheet／Form／Driveだけを使用し、test/liveを分離する。
+- 架空会員、運営所有のダミー動画／PDF／URLだけを使用する。実会員情報、既存講義資産、実YouTube／Dropbox共有URLを扱わず、外部公開しない。扱う場合は関連する本番必須DECを先に確定する。
+- `G0-T`の初回承認は`manualSync()`1回と、実行時間上限時にコードが自動作成する一時`resumeSync` triggerだけを許可する。初回同期、環境／Account／allowlist／schema、通知、backup／restoreを確認し、trigger作成前までに検出したP1/P2が0であることを証跡化した後だけ、責任者の別承認で`installMinhosTriggers()`と5つの永続trigger（`hourlySync`、`nightlySync`、`dailyBackup`、`monthlyBackup`、`onProfileFormSubmit`）を作る。trigger試験でP1/P2が出た場合は停止する。
+- 本番DNS、実カード、本番課金、実会員の課金・権限変更は行わない。承認済みGate 3ケースに必要なisolated Ghost test会員とStripe test objectだけはtest環境内で作成できる。同期実装からGhost／Stripeへは書き込まない。
+- readinessには`G0-T APPROVED`、`G0 OPEN`、`production NO_GO`を同時に記録し、承認者、時刻、値なし証跡参照を残す。
+
 ## Gate 1 — 所有者と権限
 
 - [ ] 組織所有のGhost、Stripe、Google、YouTube、Dropbox、ドメインの所有者・副担当・復旧方法を確定した。
@@ -28,6 +38,8 @@ Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSの接続を段階的
 4. フロントエンド、Sheet、テーマ、ログ、チャットへ秘密値が流れないことを確認する。
 
 ## Gate 3 — test mode / 検証環境
+
+Gate 3へ入るには、完全なGate 0、または上記`G0-T`とGate 1／2の完了が必要である。`G0-T`経由では上記の隔離条件をGate 3全体で維持する。
 
 ### Ghost
 
