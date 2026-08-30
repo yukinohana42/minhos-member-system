@@ -43,9 +43,9 @@
 
 ## コード・依存・終了手順
 
-- [ ] `npm run verify:all` が成功し、Ghost公開URL検査、Apps Script型検査・fixture・build、secret scanが合格した。
-- [ ] オンラインで `npm run audit:packages` が成功し、未承認のhigh/critical脆弱性がないことを証跡化した。期限付き例外は `config/dependency-audit-policy.json` の対象・緩和策・再確認日を個別承認する。
-- [ ] GitHub Actionsの`verify`が対象commitで成功し、main保護、secret scanning、push protection、Dependabot security updatesが有効である。
+- [x] `npm run verify:all` が成功し、Ghost公開URL検査、Apps Script型検査・fixture・build、secret scanが合格した（2026-08-31 Goal closeout）。
+- [x] オンラインで `npm run audit:packages` が成功し、未承認のhigh/critical脆弱性がないことを証跡化した。期限付きdevelopment-only例外1件は `config/dependency-audit-policy.json` の対象・緩和策・再確認日を確認済み（2026-08-31）。
+- [x] 最新`main`のGitHub Actions `verify`とartifact checksumが成功し、main保護、secret scanning、push protection、Dependabot security updates、Actions SHA pinningをread-backした（2026-08-31）。接続開始直前にもlive状態を再取得する。
 - [ ] [サービス終了Runbook](../runbooks/service-shutdown.md) の担当者と停止順を確認し、Ghost停止だけではStripe課金が止まらないことを理解した。
 
 ## YouTube / Dropbox / DNS

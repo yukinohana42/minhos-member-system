@@ -4,7 +4,7 @@ Ghost(Pro) を会員サイト兼CMS、Stripe を課金の正本、Google Sheets 
 
 ## 現在地
 
-MVPのローカル実装、変更禁止再監査、GitHub Actions、main保護まで完了しています。公開Git履歴にauthor／committer identity違反を検出した場合は、[`docs/runbooks/github-controls.md`](docs/runbooks/github-controls.md)の一回限りの修復と新SHAのCI／保護read-backが終わるまで外部接続へ進みません。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの実接続や本番変更はまだ実行していません。責任者が第20章の決定事項、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
+MVP実装、変更禁止再監査、公開Git履歴のprivacy修復、最新`main`のGitHub Actions、artifact checksum、main保護、Actions／security設定のread-backまで、コード／GitHub側の接続準備は完了しています。一回限りの履歴修復は再実行しません。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの外部Gate 0〜5、実接続、本番変更はまだ実行しておらず、production release gateは`NO_GO`です。責任者が第20章の決定事項、所有者・復旧担当、秘密情報境界、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
 
 ## 設計の要点
 
