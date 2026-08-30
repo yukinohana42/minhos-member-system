@@ -1,12 +1,13 @@
 # 外部接続準備チェックリスト
 
-この文書は Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNS の接続前チェックです。チェックが空欄の状態で実アカウント接続・本番変更・実カード決済を行いません。値そのものではなく、確認者・確認日・証跡の場所だけを記録します。
+この文書は Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNS の接続前チェックです。完全なGate 0、または隔離test専用の`G0-T`とGate 1／2が揃うまで外部接続を行いません。本番変更・実データ・実教材URL・実カード決済はGate 5まで行いません。値そのものではなく、確認者・確認日・証跡の場所だけを記録します。
 
 ## 共通ゲート
 
 | Gate | 完了条件 | 証跡 |
 |---|---|---|
 | G0 Decision | DEC-01〜DEC-21の該当項目、MVP境界、既知制約の受容が確定 | 承認記録 |
+| G0-T Limited test entry | 要件書20.1のDEC、G1、G2を確定し、test専用資源・架空データ・ダミー教材・非公開・初回`manualSync()`1回と必要時の一時`resumeSync`だけを承認。環境／Account／allowlist／schema、通知、backup／restoreを確認し、trigger前のP1/P2が0になった後だけ5つの永続triggerを別承認。G0はOPEN、productionはNO_GOのまま | test限定承認記録 |
 | G1 Ownership | サービス所有者、復旧担当、管理者・編集者・閲覧者が確定。共有アカウントなし | 権限表 |
 | G2 Secret boundary | 鍵の種類、最小権限、保管場所、ローテーション、失効手順が確定。値はGitへ置かない | secrets inventory（値なし） |
 | G3 Test mode | test mode／ローカル／検証サイトで正常・失敗・復旧シナリオを実施 | テスト記録 |

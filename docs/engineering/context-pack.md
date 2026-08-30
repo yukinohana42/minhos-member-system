@@ -42,6 +42,8 @@ Ghost(Pro) の会員サイト、Stripe 課金、Google Sheets/Form 運用台帳�
 5. YouTube/Dropbox URL再共有リスクの受容とリンク停止責任者。
 6. Google Form項目、シート共有範囲、バックアップ先、保持期間。
 
+隔離testへは、要件書20.1のDEC、Gate 1、Gate 2を確定した`G0-T`で進められる。これはGate 0完了ではなく、架空会員・ダミー教材・test専用資源・非公開・初回`manualSync()`1回と必要時の一時`resumeSync`だけに限定する。要件書20.2のDECが未確定の間は実会員、既存講義資産、実外部URL、本番操作を扱わず、productionを`NO_GO`とする。環境／Account／allowlist／schema、通知、backup／restoreを確認し、trigger前のP1/P2が0になった後だけ、責任者の別承認で`installMinhosTriggers()`と5つの永続triggerを作る。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内だけで作成できるが、同期実装からGhost／Stripeへは書き込まない。
+
 ## Risk boundaries
 
 - 外部書き込み、破壊的操作、費用が発生する操作は責任者の明示承認を要求する。
