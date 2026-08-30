@@ -4,7 +4,7 @@ Ghost(Pro) を会員サイト兼CMS、Stripe を課金の正本、Google Sheets 
 
 ## 現在地
 
-MVPのローカル実装と再監査を進めており、Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの接続や本番変更はまだ実行していません。ローカル／GitHub CIの全ゲートを通し、責任者が第20章の決定事項、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
+MVPのローカル実装、変更禁止再監査、GitHub Actions、main保護まで完了しています。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの実接続や本番変更はまだ実行していません。責任者が第20章の決定事項、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
 
 ## 設計の要点
 
