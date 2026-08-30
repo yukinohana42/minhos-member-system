@@ -4,7 +4,7 @@ Ghost(Pro) を会員サイト兼CMS、Stripe を課金の正本、Google Sheets 
 
 ## 現在地
 
-MVPのローカル実装、変更禁止再監査、GitHub Actions、main保護まで完了しています。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの実接続や本番変更はまだ実行していません。責任者が第20章の決定事項、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
+MVPのローカル実装、変更禁止再監査、GitHub Actions、main保護まで完了しています。公開Git履歴にauthor／committer identity違反を検出した場合は、[`docs/runbooks/github-controls.md`](docs/runbooks/github-controls.md)の一回限りの修復と新SHAのCI／保護read-backが終わるまで外部接続へ進みません。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの実接続や本番変更はまだ実行していません。責任者が第20章の決定事項、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
 
 ## 設計の要点
 
@@ -32,6 +32,7 @@ Node.js 22.22.3（`.nvmrc`）を使います。ルートのハーネスはNode.j
 ```powershell
 npm ci
 npm run install:packages
+npm run setup:git-hooks
 npm run check
 npm test
 ```
@@ -42,6 +43,7 @@ npm test
 npm run check:secrets
 npm run check:requirements
 npm run check:config
+npm run check:commit-identities
 npm run check:packages
 npm run verify:all
 npm run audit:packages
@@ -49,7 +51,7 @@ npm run release:gate  # 本番状態は未受入の間、意図どおりNO_GO
 npm run progress -- --status "次の検証" --note "確認内容" --next "次の一手"
 ```
 
-`npm run check` は高速なルートハーネス検査、`npm run verify`（`verify:all`の別名）はルートハーネスと両パッケージを含む完全検証です。これらはSaaSログインや実決済を実行しません（依存の初回取得だけは `npm run install:packages` がレジストリへアクセスします）。`npm run verify:all` は設定・秘密情報・要件、Ghost互換性・公開URL漏えい・テーマtest・決定的ZIP build、Apps Scriptの型・test・buildをまとめて検査します。`npm run audit:packages` はレジストリへ接続し、未承認のhigh/critical脆弱性、期限切れまたは不要になった例外を失敗にする公開前/CIゲートです。外部サービスの疎通は、承認済みの検証環境で [`docs/runbooks/external-connection-gates.md`](docs/runbooks/external-connection-gates.md) に従って手動実施します。
+`npm run check` は高速なルートハーネス検査、`npm run verify`（`verify:all`の別名）はルートハーネスと両パッケージを含む完全検証です。これらはSaaSログインや実決済を実行しません（依存の初回取得だけは `npm run install:packages` がレジストリへアクセスします）。`npm run verify:all` は設定・秘密情報・要件、到達可能なGit履歴のauthor／committer privacy、Ghost互換性・公開URL漏えい・テーマtest・決定的ZIP build、Apps Scriptの型・test・buildをまとめて検査します。Git metadata検査はメール値を出力せず、GitHub noreply形式以外をcommit SHAと役割だけで拒否します。`npm run audit:packages` はレジストリへ接続し、未承認のhigh/critical脆弱性、期限切れまたは不要になった例外を失敗にする公開前/CIゲートです。外部サービスの疎通は、承認済みの検証環境で [`docs/runbooks/external-connection-gates.md`](docs/runbooks/external-connection-gates.md) に従って手動実施します。
 
 ## 開発ループ
 

@@ -9,7 +9,7 @@
   },
   "changeBoundary": {
     "protected": ["packages/**"],
-    "harnessOwned": ["AGENTS.md", "README.md", "package.json", "package-lock.json", ".gitignore", ".gitattributes", ".editorconfig", ".nvmrc", ".github/**", "scripts/**", "docs/engineering/**", "docs/runbooks/**", "config/**"],
+    "harnessOwned": ["AGENTS.md", "README.md", "package.json", "package-lock.json", ".gitignore", ".gitattributes", ".editorconfig", ".nvmrc", ".github/**", ".githooks/**", "scripts/**", "docs/engineering/**", "docs/runbooks/**", "config/**"],
     "externalWrites": "require-explicit-owner-approval"
   },
   "verification": {
@@ -22,6 +22,7 @@
       "SECURITY.md",
       "config/harness-policy.json",
       ".github/workflows/ci.yml",
+      ".githooks/pre-push",
       ".github/dependabot.yml",
       ".github/CODEOWNERS",
       "package.json",
@@ -72,6 +73,7 @@
       "scripts/check-config.mjs",
       "scripts/check-requirements.mjs",
       "scripts/check-secrets.mjs",
+      "scripts/check-commit-identities.mjs",
       "scripts/check-packages.mjs",
       "scripts/install-packages.mjs",
       "scripts/audit-packages.mjs",

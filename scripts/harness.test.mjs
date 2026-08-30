@@ -1,11 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { evaluateReleaseReadiness } from './check-release-readiness.mjs';
 import { inspectContentForSecrets } from './check-secrets.mjs';
+import {
+  inspectCommitIdentityLog,
+  inspectRepositoryDepth,
+  isApprovedGitIdentityEmail,
+  parsePrePushInput,
+} from './check-commit-identities.mjs';
 import { validateRequirementsSemanticContract } from './check-requirements.mjs';
 import {
   validateGithubActionsPolicy,
@@ -21,6 +29,22 @@ function run(script, environment = {}) {
     encoding: 'utf8',
     env: {...process.env, ...environment},
   });
+}
+
+function runFixtureCommand(command, args, cwd, options = {}) {
+  return spawnSync(command, args, {
+    cwd,
+    encoding: 'utf8',
+    windowsHide: true,
+    ...options,
+    env: {...process.env, ...options.env},
+  });
+}
+
+function requireFixtureGit(args, cwd, options = {}) {
+  const result = runFixtureCommand('git', args, cwd, options);
+  assert.equal(result.status, 0, `git ${args[0]} failed\n${result.stdout}\n${result.stderr}`);
+  return result.stdout.trim();
 }
 
 async function validReleaseFixture() {
@@ -248,14 +272,44 @@ test('configuration contract keeps the Form-owned RAW tab native and opaque', as
   assert.ok(identityFailures.some((failure) => failure.includes('rawSheetHasResponseIdColumn')));
 });
 
-test('GitHub Actions policy exactly matches full-SHA external workflow uses', async () => {
-  const [permissions, selectedActions, workflow] = await Promise.all([
+test('GitHub Actions policy exactly matches full-SHA workflow uses and app-bound main protection', async () => {
+  const [permissions, selectedActions, workflow, mainProtection] = await Promise.all([
     readFile(path.join(root, 'config/github-actions-permissions.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, 'config/github-actions-selected-actions.json'), 'utf8').then(JSON.parse),
     readFile(path.join(root, '.github/workflows/ci.yml'), 'utf8'),
+    readFile(path.join(root, 'config/github-main-protection.json'), 'utf8').then(JSON.parse),
   ]);
 
   assert.deepEqual(validateGithubActionsPolicy(permissions, selectedActions, workflow), []);
+  assert.deepEqual(mainProtection.required_status_checks, {
+    strict: true,
+    contexts: ['verify'],
+    checks: [{context: 'verify', app_id: 15368}],
+  });
+});
+
+test('GitHub CI fetches full history and runs the commit identity privacy gate', async () => {
+  const [workflow, packageManifest, prePushHook] = await Promise.all([
+    readFile(path.join(root, '.github/workflows/ci.yml'), 'utf8'),
+    readFile(path.join(root, 'package.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, '.githooks/pre-push'), 'utf8'),
+  ]);
+
+  assert.match(workflow, /fetch-depth:\s*0/u);
+  assert.equal(
+    packageManifest.scripts['check:commit-identities'],
+    'node scripts/check-commit-identities.mjs',
+  );
+  assert.match(packageManifest.scripts['verify:all'], /npm run check:commit-identities/u);
+  assert.equal(packageManifest.scripts['setup:git-hooks'], 'git config --local core.hooksPath .githooks');
+  assert.match(prePushHook, /node scripts\/check-commit-identities\.mjs --pre-push/u);
+  const hookIndexEntry = spawnSync('git', ['ls-files', '--stage', '.githooks/pre-push'], {
+    cwd: root,
+    encoding: 'utf8',
+    windowsHide: true,
+  });
+  assert.equal(hookIndexEntry.status, 0, hookIndexEntry.stderr);
+  assert.match(hookIndexEntry.stdout, /^100755\s/u);
 });
 
 test('GitHub Actions policy rejects unpinned workflow uses and allowlist drift', async () => {
@@ -389,6 +443,184 @@ test('secret check passes without contacting a service', () => {
   const result = run('check-secrets.mjs');
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   assert.match(result.stdout, /SECRETS_OK/u);
+});
+
+test('commit identity check accepts reachable GitHub noreply identities', () => {
+  const approvedEmails = [
+    'noreply@github.com',
+    '12345678+future-collaborator@users.noreply.github.com',
+    'legacy-collaborator@users.noreply.github.com',
+    '49699333+dependabot[bot]@users.noreply.github.com',
+  ];
+  for (const email of approvedEmails) assert.equal(isApprovedGitIdentityEmail(email), true);
+
+  const log = [
+    `${'a'.repeat(40)}\t${approvedEmails[1]}\t${approvedEmails[0]}`,
+    `${'b'.repeat(40)}\t${approvedEmails[2]}\t${approvedEmails[3]}`,
+  ].join('\n');
+  assert.deepEqual(inspectCommitIdentityLog(log), { commitCount: 2, findings: [] });
+});
+
+test('commit identity check rejects private and lookalike domains without echoing email values', () => {
+  const privateFixture = ['operator', 'example.invalid'].join('@');
+  const otherNoreplyFixture = ['noreply', 'service.invalid'].join('@');
+  const suffixFixture = ['123+operator', 'users.noreply.github.com.example.invalid'].join('@');
+  const log = [
+    `${'c'.repeat(40)}\t${privateFixture}\tnoreply@github.com`,
+    `${'d'.repeat(40)}\tlegacy@users.noreply.github.com\t${otherNoreplyFixture}`,
+    `${'e'.repeat(40)}\t${suffixFixture}\tnoreply@github.com`,
+  ].join('\n');
+  const result = inspectCommitIdentityLog(log);
+
+  assert.deepEqual(result.findings, [
+    { sha: 'c'.repeat(40), role: 'author' },
+    { sha: 'd'.repeat(40), role: 'committer' },
+    { sha: 'e'.repeat(40), role: 'author' },
+  ]);
+  const serialized = JSON.stringify(result);
+  assert.equal(serialized.includes(privateFixture), false);
+  assert.equal(serialized.includes(otherNoreplyFixture), false);
+  assert.equal(serialized.includes(suffixFixture), false);
+});
+
+test('commit identity check fails closed on malformed or empty Git history records', () => {
+  assert.deepEqual(inspectCommitIdentityLog(''), {
+    commitCount: 0,
+    findings: [{ sha: 'UNKNOWN', role: 'history-empty' }],
+  });
+  assert.deepEqual(inspectCommitIdentityLog('not-a-sha\tuser@users.noreply.github.com\tnoreply@github.com'), {
+    commitCount: 1,
+    findings: [{ sha: 'UNKNOWN', role: 'history-record' }],
+  });
+});
+
+test('commit identity check rejects shallow and indeterminate repository history', () => {
+  assert.equal(inspectRepositoryDepth('false\n'), null);
+  assert.deepEqual(inspectRepositoryDepth('true\n'), {
+    sha: 'UNKNOWN',
+    role: 'history-shallow',
+  });
+  assert.deepEqual(inspectRepositoryDepth('unexpected'), {
+    sha: 'UNKNOWN',
+    role: 'history-depth',
+  });
+  assert.deepEqual(inspectRepositoryDepth(undefined), {
+    sha: 'UNKNOWN',
+    role: 'history-depth',
+  });
+});
+
+test('pre-push parser validates every pushed tip and permits deletion-only updates', () => {
+  const firstSha = '1'.repeat(40);
+  const secondSha = '2'.repeat(40);
+  const zeroSha = '0'.repeat(40);
+  assert.deepEqual(parsePrePushInput([
+    `refs/heads/first ${firstSha} refs/heads/first ${zeroSha}`,
+    `refs/heads/second ${secondSha} refs/heads/second ${firstSha}`,
+    `(delete) ${zeroSha} refs/heads/obsolete ${secondSha}`,
+  ].join('\n')), {
+    revisions: [firstSha, secondSha],
+    findings: [],
+  });
+  assert.deepEqual(parsePrePushInput('malformed'), {
+    revisions: [],
+    findings: [{ sha: 'UNKNOWN', role: 'pre-push-input' }],
+  });
+});
+
+test('commit identity CLI rejects non-HEAD pushed tips, merge ancestors, shallow clones and missing Git', async () => {
+  const fixtureRoot = await mkdtemp(path.join(tmpdir(), 'minhos-commit-identity-'));
+  const source = path.join(fixtureRoot, 'source');
+  const shallow = path.join(fixtureRoot, 'shallow');
+  const empty = path.join(fixtureRoot, 'empty');
+  const script = path.join(root, 'scripts', 'check-commit-identities.mjs');
+  const safeEmail = '12345678+fixture@users.noreply.github.com';
+  const rejectedEmail = ['fixture', 'example.invalid'].join('@');
+  const safeIdentity = {
+    GIT_AUTHOR_NAME: 'Fixture',
+    GIT_AUTHOR_EMAIL: safeEmail,
+    GIT_COMMITTER_NAME: 'Fixture',
+    GIT_COMMITTER_EMAIL: safeEmail,
+  };
+
+  try {
+    requireFixtureGit(['init', '-b', 'main', source], fixtureRoot);
+    await writeFile(path.join(source, 'safe.txt'), 'safe\n', 'utf8');
+    requireFixtureGit(['add', 'safe.txt'], source);
+    requireFixtureGit(['commit', '-m', 'safe fixture'], source, { env: safeIdentity });
+    const safeSha = requireFixtureGit(['rev-parse', 'HEAD'], source);
+
+    const safeRun = runFixtureCommand(process.execPath, [script], source);
+    assert.equal(safeRun.status, 0, `${safeRun.stdout}\n${safeRun.stderr}`);
+
+    requireFixtureGit(['switch', '-c', 'unsafe'], source);
+    await writeFile(path.join(source, 'unsafe.txt'), 'unsafe\n', 'utf8');
+    requireFixtureGit(['add', 'unsafe.txt'], source);
+    requireFixtureGit(['commit', '-m', 'unsafe fixture'], source, {
+      env: {...safeIdentity, GIT_COMMITTER_EMAIL: rejectedEmail},
+    });
+    const unsafeSha = requireFixtureGit(['rev-parse', 'HEAD'], source);
+    requireFixtureGit(['switch', 'main'], source);
+
+    const pushInput = `refs/heads/unsafe ${unsafeSha} refs/heads/unsafe ${'0'.repeat(40)}\n`;
+    const pushedTipRun = runFixtureCommand(
+      process.execPath,
+      [script, '--pre-push'],
+      source,
+      { input: pushInput },
+    );
+    assert.equal(pushedTipRun.status, 1);
+    assert.match(pushedTipRun.stderr, new RegExp(`sha=${unsafeSha} role=committer`, 'u'));
+    assert.equal(`${pushedTipRun.stdout}\n${pushedTipRun.stderr}`.includes(rejectedEmail), false);
+
+    const deletionRun = runFixtureCommand(
+      process.execPath,
+      [script, '--pre-push'],
+      source,
+      { input: `(delete) ${'0'.repeat(40)} refs/heads/unsafe ${unsafeSha}\n` },
+    );
+    assert.equal(deletionRun.status, 0, `${deletionRun.stdout}\n${deletionRun.stderr}`);
+    assert.match(deletionRun.stdout, /commits=0/u);
+
+    requireFixtureGit(['merge', '--no-ff', 'unsafe', '-m', 'merge fixture'], source, {
+      env: safeIdentity,
+    });
+    const mergeRun = runFixtureCommand(process.execPath, [script], source);
+    assert.equal(mergeRun.status, 1);
+    assert.match(mergeRun.stderr, new RegExp(`sha=${unsafeSha} role=committer`, 'u'));
+    assert.equal(`${mergeRun.stdout}\n${mergeRun.stderr}`.includes(rejectedEmail), false);
+
+    requireFixtureGit(['clone', '--depth=1', pathToFileURL(source).href, shallow], fixtureRoot);
+    const shallowRun = runFixtureCommand(process.execPath, [script], shallow);
+    assert.equal(shallowRun.status, 1);
+    assert.match(shallowRun.stderr, /role=history-shallow/u);
+
+    await mkdir(empty);
+    const missingGitRun = runFixtureCommand(process.execPath, [script], empty);
+    assert.equal(missingGitRun.status, 1);
+    assert.match(missingGitRun.stderr, /role=history-depth/u);
+    assert.equal(`${missingGitRun.stdout}\n${missingGitRun.stderr}`.includes(rejectedEmail), false);
+
+    const noPathEnvironment = Object.fromEntries(
+      Object.entries(process.env).filter(([key]) => key.toLowerCase() !== 'path'),
+    );
+    noPathEnvironment.PATH = '';
+    const missingExecutableRun = spawnSync(process.execPath, [script], {
+      cwd: source,
+      encoding: 'utf8',
+      windowsHide: true,
+      env: noPathEnvironment,
+    });
+    assert.equal(missingExecutableRun.status, 1);
+    assert.match(missingExecutableRun.stderr, /role=history-depth/u);
+    assert.equal(
+      `${missingExecutableRun.stdout}\n${missingExecutableRun.stderr}`.includes(rejectedEmail),
+      false,
+    );
+    assert.match(safeSha, /^[0-9a-f]{40}$/u);
+  } finally {
+    await rm(fixtureRoot, { recursive: true, force: true });
+  }
 });
 
 test('secret inspector catches underscore-prefixed credential assignments', () => {

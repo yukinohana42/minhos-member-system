@@ -208,6 +208,13 @@ if (githubMainProtection) {
     || githubMainProtection.required_status_checks.contexts[0] !== 'verify') {
     failures.push('github-main-protection.required_status_checks.contexts must be exactly [verify]');
   }
+  if (!Array.isArray(githubMainProtection.required_status_checks?.checks)
+    || githubMainProtection.required_status_checks.checks.length !== 1
+    || githubMainProtection.required_status_checks.checks[0]?.context !== 'verify'
+    || githubMainProtection.required_status_checks.checks[0]?.app_id !== 15368
+    || Object.keys(githubMainProtection.required_status_checks.checks[0] ?? {}).sort().join(',') !== 'app_id,context') {
+    failures.push('github-main-protection.required_status_checks.checks must bind verify exactly to GitHub Actions app_id 15368');
+  }
   if (githubMainProtection.required_pull_request_reviews !== null) failures.push('github-main-protection.required_pull_request_reviews must be null for the current solo-owner phase');
   if (githubMainProtection.restrictions !== null) failures.push('github-main-protection.restrictions must be null');
   for (const [field, expected] of expectedBooleanFields) {

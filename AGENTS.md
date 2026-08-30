@@ -64,12 +64,13 @@ Stop conditions: 要件の矛盾、秘密情報検出、破壊的操作、権限
 ```powershell
 npm ci
 npm run install:packages
+npm run setup:git-hooks
 npm run check
 npm test
 npm run verify:all
 ```
 
-`npm run check` は秘密情報検査、要件トレーサビリティ、設定と必須文書の存在を確認します。`npm run verify:all` はこれにGhostテーマの互換性・公開URL漏えい検査とApps Scriptの型検査・テスト・ビルドを加えます。失敗を無視して「完了」と報告しません。外部サービス接続前は `docs/engineering/external-connection-readiness.md` と `docs/runbooks/external-connection-gates.md` を読み、Gate 0〜5 の状態を更新します。公開候補ではオンラインの `npm run audit:packages` も実行します。
+`npm run check` は秘密情報検査、要件トレーサビリティ、設定と必須文書の存在を確認します。`npm run verify:all` はこれに、到達可能なGit履歴のauthor／committerがGitHub noreply形式であること、Ghostテーマの互換性・公開URL漏えい、Apps Scriptの型検査・テスト・ビルドを加えます。失敗を無視して「完了」と報告しません。外部サービス接続前は `docs/engineering/external-connection-readiness.md` と `docs/runbooks/external-connection-gates.md` を読み、Gate 0〜5 の状態を更新します。公開候補ではオンラインの `npm run audit:packages` も実行します。
 
 ## 完了報告の最小形式
 
