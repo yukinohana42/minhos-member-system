@@ -52,6 +52,7 @@ read-backは秘密値を含めず、両方の正本JSONと意味的に完全一�
 `config/github-main-protection.json` は次を固定します。
 
 - `verify` status checkを最新`main`に対して必須化し、GitHub Actions app（`app_id: 15368`）だけを提供元として許可する。
+- 更新APIのrequestでは`checks`だけを指定し、deprecatedな`contexts`を同時指定しない。GitHubのGET応答が互換表示として`contexts`を返しても、それをそのままPUT payloadへコピーしない。
 - 管理者にもルールを適用する。
 - force push、branch削除、merge commitによる非線形履歴を禁止する。
 - 未解決のreview会話があるPRをmergeしない。

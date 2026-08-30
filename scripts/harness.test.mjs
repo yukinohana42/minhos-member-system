@@ -283,7 +283,6 @@ test('GitHub Actions policy exactly matches full-SHA workflow uses and app-bound
   assert.deepEqual(validateGithubActionsPolicy(permissions, selectedActions, workflow), []);
   assert.deepEqual(mainProtection.required_status_checks, {
     strict: true,
-    contexts: ['verify'],
     checks: [{context: 'verify', app_id: 15368}],
   });
 });
