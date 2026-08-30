@@ -203,10 +203,8 @@ if (githubMainProtection) {
     ['lock_branch', false],
   ]);
   if (githubMainProtection.required_status_checks?.strict !== true) failures.push('github-main-protection.required_status_checks.strict must be true');
-  if (!Array.isArray(githubMainProtection.required_status_checks?.contexts)
-    || githubMainProtection.required_status_checks.contexts.length !== 1
-    || githubMainProtection.required_status_checks.contexts[0] !== 'verify') {
-    failures.push('github-main-protection.required_status_checks.contexts must be exactly [verify]');
+  if (Object.hasOwn(githubMainProtection.required_status_checks ?? {}, 'contexts')) {
+    failures.push('github-main-protection.required_status_checks.contexts must be omitted when app-bound checks are present');
   }
   if (!Array.isArray(githubMainProtection.required_status_checks?.checks)
     || githubMainProtection.required_status_checks.checks.length !== 1
