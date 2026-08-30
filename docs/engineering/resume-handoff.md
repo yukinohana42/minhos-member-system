@@ -1,12 +1,12 @@
-# 再開ハンドオフ — 2026-08-30 ローカル完成／GitHub公開履歴の最終ゲート
+# 再開ハンドオフ — 2026-08-31 コード／GitHub Goal完了・外部Gate 0開始前
 
 ## この文書の目的
 
-みんほす会員管理MVPの再開正本です。最新要件は `docs/minhos-membership-requirements-v1.1.md` です。ローカル実装、依存再現、全自動検証、オンライン依存監査、複数回の変更禁止再監査、GitHub初回公開、CI、main保護まで完了しています。最終監査でGitHubが生成した公開commitにnoreply形式でないcommitter metadataを検出したため、そのcommitを祖先に含めない健全な修復candidateと再発防止gateを準備しました。メール値や氏名は記録していません。ローカルcandidateの未解決P0/P1/P2は0件です。
+みんほす会員管理MVPの再開正本です。最新要件は `docs/minhos-membership-requirements-v1.1.md` です。ローカル実装、依存再現、全自動検証、オンライン依存監査、複数回の変更禁止再監査、GitHub公開、公開履歴のprivacy修復、最新`main`のCI／artifact／保護・security read-backまで完了しています。監査で検出したGitHub生成commitのidentity問題は、違反commitを祖先に含めない履歴へ一回限りで修復し、author／committer双方のfull-history gateを追加しました。メール値や氏名は記録していません。ローカル実装・GitHubゲート内の未解決P0/P1/P2は0件です。外部・法務・運用のrelease blockerは`config/release-status.json`どおりOPENのままです。
 
 本番公開は別判定です。Ghost／Stripe／Google Workspaceの実接続、AT-01〜45、DEC-01〜21、法務・権利・保存期間、実機quota・通知・復元の証跡が未完了なので、production release gateは意図どおり`NO_GO`です。
 
-このチェックポイントでは、Ghost／Stripe／Google Workspaceへの接続、`clasp login`／`clasp push`、実決済、本番公開を実施していません。公開`main`の修復と新SHAのCI／保護read-backが完了するまでは、外部接続にも進みません。
+このチェックポイントでは、Ghost／Stripe／Google Workspaceへの接続、`clasp login`／`clasp push`、実決済、本番公開を実施していません。一回限りの公開`main`修復は完了済みであり、再実行しません。次はGate 0の意思決定、Gate 1の所有者・復旧担当、Gate 2の秘密情報境界を責任者と確定する段階です。3 Gateの後にだけtest専用環境へ接続します。
 
 ## ユーザーが担当する操作
 
@@ -60,6 +60,8 @@ MakeとMux署名動画はMVPに含めません。秘密値、2FAコード、カ�
 | Apps Script tests | PASS: 30 files／214 tests |
 | `npm run audit:packages` | PASS: 未承認high／critical 0、期限内development-only例外1件 |
 | 変更禁止再監査 | PASS: ローカルP0/P1/P2 0件 |
+| 最新`main` GitHub CI／artifact | PASS: `CI / verify`、SHA-bound Ghost ZIP、CI記録値とローカルbuildのchecksum一致 |
+| GitHub controls | PASS: app-bound `verify`、strict／admins／linear／conversation、force push・削除禁止、Actions selected＋SHA pin、security read-back |
 | `npm run release:gate` | 想定どおり`NO_GO`: 外部AT／DEC／証跡未完 |
 
 Ghost ZIP SHA-256は `a2c869ba10a7673a2a9ca3b9b7b52bf8e077f8e3583d5db069a7cf8ebef7844a` です。ローカルbuildとGitHub Actions artifact内の`SHA256SUMS.txt`が一致しました。ZIPは`dist/`配下の生成物でGit管理しません。
@@ -69,30 +71,32 @@ Ghost ZIP SHA-256は `a2c869ba10a7673a2a9ca3b9b7b52bf8e077f8e3583d5db069a7cf8ebe
 - origin: `https://github.com/yukinohana42/minhos-member-system.git`
 - repository: public、default branchは`main`
 - 初回実装commit: `8b931750957cf4a28dcf9aef3b8fba2fd4379b67`
-- GitHub Actions CI run: `33303205826`、`verify`成功、対象SHA一致
-- CI artifact: `minhos-ghost-theme-8b931750957cf4a28dcf9aef3b8fba2fd4379b67`、artifact ID `9729609111`、checksum照合済み
+- 公開履歴privacy修復checkpoint: `745e8ad2469493c896c782d5765c50d748dccbee`。その後の通常PRでbranch protection payload互換修正を反映済み
+- 最新`main`のGitHub Actions `CI / verify`成功、SHA-bound artifactとローカルbuildのchecksum照合済み。現在値は`git rev-parse origin/main`とGitHub Actionsの最新`main` push runを正本とする
 - GitHub CLI認証: 確認済み
 - Actions: enabled、`allowed_actions=selected`、完全長SHA pin必須
+- workflowの3 actionは公式Node.js 24対応v7 release commitへ固定し、許可listと双方向検査する
 - CI checkout: full history。author／committer privacy gateを`verify:all`で実行
 - allowlist: workflowが使う3 actionと正本JSONが一致
 - secret scanning、push protection、Dependabot security updates、vulnerability alerts、private vulnerability reporting: enabled
 - main protection: enabled。GitHub Actions app（`app_id: 15368`）由来の`verify`必須、strict、adminsにも適用、linear history、force push／branch削除禁止、conversation resolution必須
 - repo-local identity: `yukinohana42` とGitHub noreply email
 - 現在のGit設定にcommit署名強制はない。要件・保護設定にも署名必須条件はない
-- 最終監査で公開`main`のGitHub生成commitにidentity違反を検出。健全な履歴から修復candidateを作成し、全到達履歴のauthor／committer gate、pre-push hook、Git実行不能を含むfail-closed E2Eを追加済み
-- このチェックポイント時点では、一回限りの`main`置換、正本保護復元、新SHAのCI／artifact／remote identity read-backが未完。完了前のGitHub最終ゲートと外部接続は`NO_GO`
+- 一回限りの`main`置換、正本保護復元、新履歴のCI／artifact／remote identity read-backは完了。履歴修復を再実行しない
+- 旧commitを指すhead／tag／pull refはないが、旧SHAの直接参照やGitHub cacheからの完全消去は保証しない。通常branchへ再導入せず、完全消去が必要な場合だけGitHub Support／Privacy窓口へ相談する
 
-公開履歴の修復後は、`main`から短命branchを作り、CI成功後にPRで線形に反映します。`git clean`、`git reset --hard`、作業ディレクトリ削除を行いません。
+以後は`main`から短命branchを作り、CI成功後にPRで線形に反映します。`git clean`、`git reset --hard`、作業ディレクトリ削除を行いません。
 
 ## 次の安全な順序
 
-1. remote `main`と保護設定をread-onlyで再取得する。到達履歴にidentity違反が残る場合だけ、`docs/runbooks/github-controls.md`の一回限りの修復手順を明示承認下で実行する。正常なら再実行しない。
-2. safe candidateとremote `main`のSHA一致、正本保護復元、到達履歴のidentity、新SHAのGitHub Actions CI、artifact checksum、security設定をread-backする。すべてPASSするまで外部接続へ進まない。
-3. GitHub最終ゲート後、実接続を開始する日程を決め、`docs/runbooks/connection-handoff.md`の4行の準備完了だけを責任者へ一度に確認する。
-4. 本人がGhost／Stripe／Googleへログインし、2FA、Custom Integration、restricted test key、Google OAuthを各サービス画面内で完了する。秘密値をチャットへ送らない。
-5. Codexは認証後、test専用Apps Script／Spreadsheet／Formへdeployし、scheduled triggerを作らず`manualSync()`を1回実行する。
-6. Ghost test siteへthemeとroutesを別々に適用し、状態別表示と公開面漏えいを確認する。
-7. test modeのAT証跡とDECを記録し、P1/P2が0の時だけ本番Go/No-Goへ進む。
+1. 接続開始直前にremote `main`、最新CI、保護・Actions・security設定をread-onlyで再取得する。公開履歴修復は完了済みなので再実行しない。
+2. Gate 0としてDEC-01〜21の該当判断、MVP境界、既知制約の受容を責任者が確定する。
+3. Gate 1のサービス所有者・復旧担当・権限分担と、Gate 2の秘密情報の最小権限・保管・失効境界を確定する。
+4. `docs/runbooks/connection-handoff.md`の4行の準備完了だけを責任者へ一度に確認する。
+5. 本人がGhost／Stripe／Googleへログインし、2FA、Custom Integration、restricted test key、Google OAuthを各サービス画面内で完了する。秘密値をチャットへ送らない。
+6. Codexは認証後、test専用Apps Script／Spreadsheet／Formへdeployし、scheduled triggerを作らず`manualSync()`を1回実行する。
+7. Ghost test siteへthemeとroutesを別々に適用し、状態別表示と公開面漏えいを確認する。
+8. test modeのAT証跡とDECを記録し、Gate 3のtest接続で発生したP1/P2が0の時だけ本番Go/No-Goへ進む。
 
 ## 外部接続後まで残るNo-Go
 
@@ -113,8 +117,8 @@ Ghost ZIP SHA-256は `a2c869ba10a7673a2a9ca3b9b7b52bf8e077f8e3583d5db069a7cf8ebe
 
 ## 完了条件
 
-ローカルP0/P1/P2 0、`verify:all`、依存監査、接続直前資材は完了しています。このGoalのGitHub側停止条件は、safe candidateを公開`main`へ置換し、正本保護、到達履歴、新SHAのCI／artifact、security設定をread-backした時点で満たします。このチェックポイント時点ではその一回限りの操作が未完です。本番Goは別判定です。
+ローカル実装・GitHubゲート内のP0/P1/P2 0、`verify:all`、依存監査、接続資材、公開履歴privacy修復、最新`main`のCI／artifact／identity／保護・security read-backが完了し、コード／GitHub側Goalの停止条件を満たしています。本番Goは別判定であり、外部Gate 0〜5、AT、DEC、法務／権利、実決済が未完のため`NO_GO`です。
 
 ## 次回Codexへ送る短い再開プロンプト
 
-> `AGENTS.md`、`docs/engineering/resume-handoff.md`、要件定義書v1.1を順に読み、最初にremote `main`、到達履歴のidentity、CI、GitHub保護状態をread-onlyで再取得してください。公開履歴修復が未完なら`docs/runbooks/github-controls.md`の一回限りの手順だけを完了し、完了済みなら再実行しないでください。ローカル`verify:all`を再現し、GitHub最終ゲート後にだけ`docs/runbooks/connection-handoff.md`の一括確認へ進んでください。本番SaaSはGateと本人承認を満たすまで変更しないでください。
+> `AGENTS.md`、`docs/engineering/resume-handoff.md`、要件定義書v1.1を順に読み、コード／GitHub側Goalは完了済み、外部Gate 0開始前、productionは`NO_GO`と認識してください。最初にremote `main`、到達履歴のidentity、最新CI、GitHub保護状態をread-onlyで再取得し、公開履歴修復は再実行しないでください。外部接続を始める依頼がある場合だけGate 0の判断、Gate 1の所有者、Gate 2の秘密境界を確定し、その後`docs/runbooks/connection-handoff.md`の4行を一括確認してtest環境から進めてください。本番SaaSはGateと本人承認を満たすまで変更しないでください。

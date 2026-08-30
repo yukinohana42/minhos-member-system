@@ -64,4 +64,4 @@ Stop: 要件矛盾、秘密検出、破壊的操作、承認不足
 
 ## Context freshness
 
-要件書を更新したら、`config/requirements-trace.json`、この文書、`docs/engineering/requirements-traceability.md` の変更を同じループで行い、`npm run check` を通します。日付、APIバージョン、SaaS価格は推測で補完せず、公式資料と確認日を記録します。
+要件ID、本文、AT、OCなどの規範要件を更新したら、`config/requirements-trace.json`、この文書、`docs/engineering/requirements-traceability.md` の変更を同じループで行い、`npm run check` を通します。実装状態だけを更新する場合は、要件トレースを変えず、`resume-handoff.md`、`progress-log.md`、該当readiness文書を同じループで同期します。日付、APIバージョン、SaaS価格は推測で補完せず、公式資料と確認日を記録します。

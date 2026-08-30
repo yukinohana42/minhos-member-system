@@ -8,7 +8,7 @@
 
 ## 現在の停止位置
 
-- ローカル実装、fixture試験、秘密情報検査、配布物生成、GitHub CIがすべて合格するまで外部接続へ進まない。
+- ローカル実装、fixture試験、秘密情報検査、配布物生成、最新`main`のGitHub CI／artifact／保護・security read-backは合格済み。現在は外部Gate 0の意思決定、Gate 1の所有者・復旧担当、Gate 2の秘密情報境界を確定する前で停止している。
 - 最初はStripe test modeと専用の試験Spreadsheet／Form／Driveフォルダを使用する。
 - scheduled trigger、本番Stripe、実会員データ、本番公開はtest mode受入後まで有効化しない。
 
@@ -48,7 +48,7 @@
 4. Form回答先を同じSpreadsheetへ設定し、Google Forms自身が作成したnative回答タブを回答受付前に`30_Profile_RAW`へ改名する。header・列順・列数はForm所有のまま編集せず、response ID列を追加しない。試験回答でeventの`FormResponse.getId()`を使う一意照合／不一致／重複／再回答を確認する。
 5. scheduled triggerを作らず、まず `manualSync()` を1回だけ実行する。Ghost／StripeはGETだけであること、Account・livemode・allowlistを再確認する。
 6. Dashboard、Exceptions、SyncLog、バックアップ、通知を確認し、AT証跡へ記録する。
-7. P1/P2がゼロになった後だけ、責任者承認を得て差分triggerを作る。
+7. Gate 3のtest接続で発生したP1/P2がゼロになった後だけ、責任者承認を得て差分triggerを作る。本番release blockerは別途OPENのまま扱う。
 8. GhostテーマZIPを検証サイトへ入れる。続いてGhost Adminから現行 `routes.yaml` をダウンロードしてバックアップし、`packages/ghost-theme/routes.yaml` をテーマZIPとは別にアップロードする。`/`、`/updates/`、`/lectures/` と代表投稿URLを確認し、失敗時は旧routesと旧テーマを戻す。
 9. 未ログイン／free／paid、OGP、RSS、検索、メール、ActivityPubを実地確認する。
 
