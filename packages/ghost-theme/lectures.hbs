@@ -1,0 +1,59 @@
+{{!< default}}
+
+<section class="page-hero page-hero--lectures">
+    <div class="container">
+        <p class="eyebrow">MEMBER LIBRARY</p>
+        <h1>レクチャー一覧</h1>
+        <p>開催年、テーマ、講師から、学びたいレクチャーを探せます。タイトルと概要は公開し、動画と資料は有料会員向け本文で提供します。</p>
+        {{#if @member}}
+            {{#if @member.paid}}
+                <p class="page-hero__state">有料会員としてログイン中です。講義を選ぶと動画・資料をご利用いただけます。</p>
+            {{else}}
+                <p class="page-hero__state">ログイン中です。講義を選ぶと、このアカウントの契約または付与された閲覧権限をGhostが確認します。</p>
+            {{/if}}
+        {{else}}
+            <p class="page-hero__state">本文の閲覧には会員登録とログインが必要です。</p>
+        {{/if}}
+    </div>
+</section>
+
+<section class="section section--tint" aria-labelledby="lecture-list-title">
+    <div class="container">
+        {{> "lecture-filters"}}
+        <div class="section-heading section-heading--list">
+            <div>
+                <p class="eyebrow">ARCHIVE</p>
+                <h2 id="lecture-list-title">講義アーカイブ</h2>
+            </div>
+            <p class="section-heading__count" aria-live="polite">{{plural pagination.total empty="講義はありません" singular="%件" plural="%件"}}</p>
+        </div>
+        <div class="lecture-grid" data-lecture-list>
+            {{#foreach posts}}
+                {{> "lecture-card"}}
+            {{else}}
+                <div class="empty-state empty-state--wide">
+                    <h3>条件に一致する講義がありません</h3>
+                    <p>開催年・テーマ・講師の条件を解除するか、キーワードを変えてお試しください。</p>
+                    <a class="button button--secondary" href="{{@site.url}}/lectures/">条件をすべて解除</a>
+                </div>
+            {{/foreach}}
+        </div>
+        {{> "pagination" label="講義"}}
+    </div>
+</section>
+
+{{#if @member}}
+    {{#unless @member.paid}}
+        <section class="section section--small" aria-label="会員案内">
+            <div class="container narrow-container">
+                {{> "protected-cta"}}
+            </div>
+        </section>
+    {{/unless}}
+{{else}}
+    <section class="section section--small" aria-label="会員案内">
+        <div class="container narrow-container">
+            {{> "protected-cta"}}
+        </div>
+    </section>
+{{/if}}

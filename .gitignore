@@ -1,0 +1,44 @@
+# Node / local tooling
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnp.*
+coverage/
+dist/
+build/
+.cache/
+
+# Local environment and credentials — never commit values
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+credentials*.json
+service-account*.json
+token*.json
+secrets*/
+.clasp.json
+.clasprc.json
+
+# Local OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Test artifacts and local logs
+.tmp/
+tmp/
+test-results/
+*.log
+docs/engineering/progress-log.local.md

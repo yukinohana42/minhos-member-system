@@ -1,0 +1,13 @@
+<nav class="pagination" aria-label="{{#if label}}{{label}}のページ移動{{else}}ページ移動{{/if}}">
+    {{#if prev}}
+        <a class="pagination__link pagination__link--previous" href="{{page_url prev}}" rel="prev">← 新しい{{#if label}}{{label}}{{else}}投稿{{/if}}</a>
+    {{else}}
+        <span class="pagination__link pagination__link--disabled" aria-hidden="true">← 新しい{{#if label}}{{label}}{{else}}投稿{{/if}}</span>
+    {{/if}}
+    <p class="pagination__status"><span class="sr-only">現在のページ：</span>{{#if label}}{{label}}：{{/if}}{{page}} / {{pages}}ページ<span class="pagination__total">（{{plural pagination.total empty="該当なし" singular="%件" plural="%件"}}）</span></p>
+    {{#if next}}
+        <a class="pagination__link pagination__link--next" href="{{page_url next}}" rel="next">過去の{{#if label}}{{label}}{{else}}投稿{{/if}} →</a>
+    {{else}}
+        <span class="pagination__link pagination__link--disabled" aria-hidden="true">過去の{{#if label}}{{label}}{{else}}投稿{{/if}} →</span>
+    {{/if}}
+</nav>

@@ -1,0 +1,21 @@
+<section class="protected-cta" aria-labelledby="protected-title">
+    <span class="protected-cta__eyebrow">会員限定</span>
+    <h2 id="protected-title">続きは会員ライブラリでご覧いただけます</h2>
+    <p>
+        レクチャー本文、動画、資料は有料会員向けです。ログイン済みの方はアカウントを確認し、未登録の方は会員案内をご覧ください。
+    </p>
+    <div class="button-row">
+        {{#if @member}}
+            {{#if @member.paid}}
+                <a class="button button--primary" href="#/portal/account">アカウントを確認</a>
+                <a class="button button--secondary" href="{{@site.url}}/contact/">運営へ問い合わせる</a>
+            {{else}}
+                <a class="button button--primary" href="#/portal/signup">再入会</a>
+                <a class="button button--secondary" href="#/portal/account">アカウントを確認</a>
+            {{/if}}
+        {{else}}
+            <a class="button button--primary" href="#/portal/signin">ログイン</a>
+            <a class="button button--secondary" href="#/portal/signup">会員になる</a>
+        {{/if}}
+    </div>
+</section>

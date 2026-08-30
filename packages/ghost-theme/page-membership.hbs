@@ -1,0 +1,27 @@
+{{!< default}}
+{{#post}}
+    {{> "static-page" kicker="MEMBERSHIP" intro="提供内容、料金、更新、解約方法をご確認のうえお申し込みください。"}}
+    <section class="section section--small" aria-labelledby="membership-action-title">
+        <div class="container narrow-container">
+            <div class="membership-action">
+                <p class="eyebrow">READY TO START?</p>
+                <h2 id="membership-action-title">Ghost Portalからお申し込みください</h2>
+                <p>登録・ログイン・契約管理はGhost Portalを利用します。現在有料会員の方は重複申込をせず、アカウントから契約をご確認ください。</p>
+                <div class="button-row">
+                    {{#if @member}}
+                        {{#if @member.paid}}
+                            <a class="button button--primary" href="{{@site.url}}/lectures/">ライブラリを見る</a>
+                            <a class="button button--secondary" href="#/portal/account">アカウントを確認</a>
+                        {{else}}
+                            <a class="button button--primary" href="#/portal/signup">会員プランを確認・再入会</a>
+                            <a class="button button--secondary" href="{{@site.url}}/lectures/">ライブラリで権限を確認</a>
+                        {{/if}}
+                    {{else}}
+                        <a class="button button--primary" href="#/portal/signup">会員になる</a>
+                        <a class="button button--secondary" href="#/portal/signin">ログイン</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </section>
+{{/post}}

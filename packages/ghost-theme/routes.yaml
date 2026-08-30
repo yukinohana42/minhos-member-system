@@ -1,0 +1,15 @@
+routes:
+  /: home
+
+collections:
+  /updates/:
+    permalink: /updates/{slug}/
+    template: index
+    filter: tag:-hash-lecture+visibility:public
+  /lectures/:
+    permalink: /lectures/{slug}/
+    template: lectures
+    filter: tag:hash-lecture+visibility:paid
+
+taxonomies:
+  tag: /tag/{slug}/

@@ -1,0 +1,83 @@
+{
+  "object": "list",
+  "has_more": false,
+  "url": "/v1/subscriptions",
+  "data": [
+    {
+      "id": "sub_active_1",
+      "customer": { "id": "cus_paid_1", "email": "paid.member@example.com" },
+      "status": "active",
+      "livemode": false,
+      "collection_method": "charge_automatically",
+      "pause_collection": null,
+      "cancel_at_period_end": false,
+      "start_date": 1767225600,
+      "canceled_at": null,
+      "ended_at": null,
+      "latest_invoice": {
+        "id": "in_paid_1",
+        "status": "paid",
+        "customer": "cus_paid_1",
+        "parent": { "type": "subscription_details", "subscription_details": { "subscription": "sub_active_1" } },
+        "amount_due": 5500,
+        "amount_paid": 5500,
+        "currency": "jpy",
+        "created": 1787875200,
+        "status_transitions": { "paid_at": 1787875260 },
+        "payment_intent": { "id": "pi_paid_1", "customer": "cus_paid_1", "invoice": "in_paid_1", "last_payment_error": null }
+      },
+      "items": {
+        "data": [
+          {
+            "current_period_start": 1787875200,
+            "current_period_end": 1790553600,
+            "price": {
+              "id": "price_main_monthly",
+              "active": true,
+              "currency": "jpy",
+              "unit_amount": 5500,
+              "recurring": { "interval": "month" },
+              "product": "stripe_product_main"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "sub_past_due_1",
+      "customer": "cus_due_1",
+      "status": "past_due",
+      "livemode": false,
+      "collection_method": "charge_automatically",
+      "pause_collection": null,
+      "cancel_at_period_end": true,
+      "current_period_start": 1787875200,
+      "current_period_end": 1790553600,
+      "latest_invoice": {
+        "id": "in_open_1",
+        "status": "open",
+        "customer": "cus_due_1",
+        "subscription": "sub_past_due_1",
+        "amount_due": 5500,
+        "amount_paid": 0,
+        "currency": "jpy",
+        "created": 1787875200,
+        "next_payment_attempt": 1787961600,
+        "payment_intent": { "id": "pi_failed_1", "customer": "cus_due_1", "invoice": "in_open_1", "last_payment_error": { "created": 1787875300 } }
+      },
+      "items": {
+        "data": [
+          {
+            "price": {
+              "id": "price_main_monthly",
+              "currency": "jpy",
+              "unit_amount": 5500,
+              "recurring": { "interval": "month" },
+              "product": "stripe_product_main"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

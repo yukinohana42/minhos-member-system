@@ -1,0 +1,22 @@
+{{!< default}}
+
+{{#post}}
+<article class="page-shell {{post_class}}">
+    {{#match @page.show_title_and_feature_image}}
+        <header class="page-header">
+            <div class="container narrow-container">
+                <p class="eyebrow">MINHOS MEMBERSHIP</p>
+                <h1>{{title}}</h1>
+                {{#if custom_excerpt}}<p class="page-header__excerpt">{{custom_excerpt}}</p>{{/if}}
+            </div>
+        </header>
+    {{else}}
+        <h1 class="sr-only">{{title}}</h1>
+    {{/match}}
+    <div class="container narrow-container">
+        <div class="page-content gh-content">
+            {{content}}
+        </div>
+    </div>
+</article>
+{{/post}}

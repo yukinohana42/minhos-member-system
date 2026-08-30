@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "1.0",
+  "project": "minhos-member-system",
+  "requirementsDocument": "docs/minhos-membership-requirements-v1.1.md",
+  "node": {
+    "required": ">=22.22.3 <23",
+    "lockfileVersion": 3,
+    "dependenciesPolicy": "Node.js built-ins only until an implementation package has an approved need, license, fixed version, and vulnerability review."
+  },
+  "changeBoundary": {
+    "protected": ["packages/**"],
+    "harnessOwned": ["AGENTS.md", "README.md", "package.json", "package-lock.json", ".gitignore", ".gitattributes", ".editorconfig", ".nvmrc", ".github/**", "scripts/**", "docs/engineering/**", "docs/runbooks/**", "config/**"],
+    "externalWrites": "require-explicit-owner-approval"
+  },
+  "verification": {
+    "commands": ["npm run check", "npm test"],
+    "network": false,
+    "livePayments": false,
+    "requiredArtifacts": [
+      "AGENTS.md",
+      "README.md",
+      "SECURITY.md",
+      "config/harness-policy.json",
+      ".github/workflows/ci.yml",
+      ".github/dependabot.yml",
+      ".github/CODEOWNERS",
+      "package.json",
+      "package-lock.json",
+      "docs/minhos-membership-requirements-v1.1.md",
+      "docs/engineering/context-pack.md",
+      "docs/engineering/loop-engineering.md",
+      "docs/engineering/codex-usage-budget.md",
+      "docs/engineering/requirements-traceability.md",
+      "docs/engineering/sheets-schema.md",
+      "docs/engineering/google-form-blueprint.md",
+      "docs/engineering/external-connection-readiness.md",
+      "docs/runbooks/README.md",
+      "docs/runbooks/ghost-admin-setup.md",
+      "docs/runbooks/external-connection-gates.md",
+      "docs/runbooks/connection-handoff.md",
+      "docs/runbooks/secrets-and-rotation.md",
+      "docs/runbooks/sync-operations.md",
+      "docs/runbooks/backup-and-restore.md",
+      "docs/runbooks/content-publish.md",
+      "docs/runbooks/member-lifecycle.md",
+      "docs/runbooks/service-shutdown.md",
+      "docs/runbooks/incident-link-leak.md",
+      "docs/runbooks/release-go-no-go.md",
+      "docs/runbooks/github-controls.md",
+      "docs/templates/lecture-post-template.md",
+      "docs/evidence/README.md",
+      "docs/evidence/acceptance-record-template.md",
+      "docs/engineering/progress-log.md",
+      "config/requirements-trace.json",
+      "config/release-status.json",
+      "config/sheets-schema.json",
+      "config/form-blueprint.json",
+      "config/external-services.json",
+      "config/dependency-audit-policy.json",
+      "config/github-main-protection.json",
+      "config/github-actions-permissions.json",
+      "config/github-actions-selected-actions.json",
+      "packages/ghost-theme/package.json",
+      "packages/ghost-theme/package-lock.json",
+      "packages/ghost-theme/routes.yaml",
+      "packages/ghost-theme/scripts/build-theme.mjs",
+      "packages/ghost-theme/tests/theme.test.mjs",
+      "packages/apps-script/package.json",
+      "packages/apps-script/package-lock.json",
+      "packages/apps-script/appsscript.json",
+      "packages/apps-script/script-properties.names.json",
+      "scripts/check-config.mjs",
+      "scripts/check-requirements.mjs",
+      "scripts/check-secrets.mjs",
+      "scripts/check-packages.mjs",
+      "scripts/install-packages.mjs",
+      "scripts/audit-packages.mjs",
+      "scripts/check-release-readiness.mjs"
+    ]
+  },
+  "externalConnectionPolicy": {
+    "requiredGates": ["G0-decision", "G1-account-ownership", "G2-secret-boundary", "G3-test-mode", "G4-acceptance", "G5-production-approval"],
+    "providers": ["ghost", "stripe", "google-workspace", "youtube", "dropbox", "dns"],
+    "secretValuesAllowedInRepository": false
+  },
+  "releaseGate": {
+    "targetEnvironment": "production",
+    "targetEnvironmentId": null,
+    "requirementsVersion": "v1.1",
+    "artifactPath": "packages/ghost-theme/dist/minhos-membership-1.0.0.zip",
+    "maxEvidenceAgeHours": 168,
+    "requiredOperationalCheckSource": "config/requirements-trace.json#operationalChecks",
+    "candidateCommitPolicy": "ancestor-of-clean-head-with-attestation-only-diff",
+    "attestationAllowedPaths": [
+      "config/release-status.json",
+      "docs/evidence/records/**"
+    ],
+    "artifactBinding": "canonical-ci-candidate-output",
+    "artifactSourceRoot": "packages/ghost-theme",
+    "artifactChecksumsPath": "packages/ghost-theme/dist/SHA256SUMS.txt",
+    "artifactNameTemplate": "minhos-ghost-theme-{candidateCommitSha}",
+    "artifactSourceManifestAlgorithm": "sha256(path-nul-content-sha256-lf)-v1",
+    "canonicalCiCheck": {
+      "repository": "yukinohana42/minhos-member-system",
+      "workflow": ".github/workflows/ci.yml",
+      "job": "verify",
+      "check": "verify"
+    },
+    "requiredBlockers": [
+      {"id": "BLK-EXT-01", "severity": "P1", "owner": "system-owner", "description": "Ghost、Stripe、Google Workspace等の本番接続と承認済みtest mode証跡が未完了。"},
+      {"id": "BLK-EXT-02", "severity": "P1", "owner": "responsible-owner", "description": "本番アカウント所有、秘密情報境界、外部接続Gate 0〜5の承認が未完了。"},
+      {"id": "BLK-LEGAL-01", "severity": "P1", "owner": "responsible-owner", "description": "法務文書、講師許諾、個人情報保存期間、外部URL再共有リスクの決定が未完了。"},
+      {"id": "BLK-OPS-01", "severity": "P2", "owner": "system-owner", "description": "手動受入、バックアップ復元、rollback、監視、問い合わせ担当の本番証跡が未完了。"}
+    ]
+  },
+  "modelRouting": {
+    "highRisk": {"model": "gpt-5.6-sol", "reasoning": "max-or-xhigh-after-baseline", "examples": ["security review", "data authority", "release go/no-go"]},
+    "repeatable": {"model": "gpt-5.6-luna", "reasoning": "low-or-medium; max-only-with-measured-gain", "examples": ["docs normalization", "fixture generation", "static checks"]},
+    "measurement": ["task_success", "acceptance_coverage", "input_tokens", "output_tokens", "cached_tokens", "latency", "cost"]
+  },
+  "lastReviewed": "2026-08-28"
+}

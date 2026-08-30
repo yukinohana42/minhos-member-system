@@ -1,0 +1,50 @@
+{{!< default}}
+
+{{#post}}
+    {{!-- Welcome is paid-members only and still requires Ghost's resolved access. --}}
+    {{#match visibility "paid"}}
+        {{#if access}}
+            <article class="page-shell page-shell--welcome {{post_class}}">
+                <header class="page-header page-header--welcome">
+                    <div class="container narrow-container">
+                        <p class="eyebrow">WELCOME</p>
+                        <h1>{{title}}</h1>
+                        {{#if @member.paid}}
+                            <p class="page-header__excerpt">会員登録ありがとうございます。最初のレクチャーへ進む前に、ログイン方法と利用上の注意をご確認ください。</p>
+                        {{else}}
+                            <p class="page-header__excerpt">承認済みの会員向けアクセスが確認できました。最初のレクチャーへ進む前に、ログイン方法と利用上の注意をご確認ください。</p>
+                        {{/if}}
+                    </div>
+                </header>
+                <div class="container narrow-container">
+                    <div class="welcome-steps" aria-label="初回利用の手順">
+                        <ol>
+                            <li><strong>ログイン状態を確認</strong><span>このページが表示されていれば、会員向けの閲覧権限が確認されています。</span></li>
+                            <li><strong>ライブラリを開く</strong><span>レクチャー一覧から、開催年・テーマ・講師で講義を探せます。</span></li>
+                            <li><strong>プロフィールを補足</strong><span>必要に応じて、運営者が案内するフォームから追加情報を登録してください。未回答でも閲覧は止まりません。</span></li>
+                        </ol>
+                    </div>
+                    <div class="button-row welcome-actions">
+                        <a class="button button--primary" href="{{@site.url}}/lectures/">レクチャー一覧を見る</a>
+                        <a class="button button--secondary" href="#/portal/account">契約・アカウントを確認</a>
+                    </div>
+                    <div class="page-content gh-content welcome-content">
+                        {{content}}
+                    </div>
+                    {{> "content-support"}}
+                </div>
+            </article>
+        {{else}}
+            <section class="section section--large" aria-labelledby="welcome-locked-title">
+                <div class="container narrow-container">
+                    <p class="eyebrow">MEMBERS ONLY</p>
+                    <h1 id="welcome-locked-title">会員向けウェルカムページです</h1>
+                    <p>Ghost Portalへログインすると、初回利用の案内と会員ライブラリへの導線が表示されます。</p>
+                    {{> "protected-cta"}}
+                </div>
+            </section>
+        {{/if}}
+    {{else}}
+        {{> "configuration-error"}}
+    {{/match}}
+{{/post}}

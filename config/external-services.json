@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0",
+  "policy": {
+    "mode": "readiness-only",
+    "noCredentialValues": true,
+    "ownerMustPerformInitialSecretEntry": true,
+    "allProductionChangesRequire": ["written-approval", "rollback-plan", "evidence-location"]
+  },
+  "scriptPropertiesRegistry": "packages/apps-script/script-properties.names.json",
+  "services": [
+    {
+      "id": "ghost",
+      "name": "Ghost(Pro)",
+      "purpose": "サイト、Portal、会員・Tier・アクセス権、記事CMS",
+      "systemOfRecord": ["member_access", "tier", "content"],
+      "credentialNames": ["GHOST_ADMIN_API_KEY", "GHOST_ADMIN_URL", "GHOST_SITE_ID", "GHOST_ACCEPT_VERSION"],
+      "scriptPropertyNames": ["GHOST_ADMIN_API_KEY", "GHOST_ADMIN_URL", "GHOST_SITE_ID", "GHOST_ACCEPT_VERSION"],
+      "credentialOwner": "system-owner",
+      "initialActions": ["confirm-plan", "confirm-domain", "create-custom-integration", "export-before-production-change"],
+      "readOnlyChecks": ["site-id", "tier-id", "member-access", "protected-content", "portal-state"],
+      "productionActionsRequiringApproval": ["theme-upload", "portal-tier-change", "domain-change", "member-delete", "site-shutdown"]
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "purpose": "Customer、Subscription、Invoice、Refund、Dispute、Product/Price",
+      "systemOfRecord": ["billing", "subscription", "refund", "dispute"],
+      "credentialNames": ["STRIPE_RESTRICTED_KEY", "STRIPE_ACCOUNT_ID", "STRIPE_API_VERSION", "STRIPE_LIVEMODE", "STRIPE_PRICE_ALLOWLIST", "STRIPE_PRODUCT_ALLOWLIST"],
+      "scriptPropertyNames": ["STRIPE_RESTRICTED_KEY", "STRIPE_ACCOUNT_ID", "STRIPE_API_VERSION", "STRIPE_LIVEMODE", "STRIPE_PRICE_ALLOWLIST", "STRIPE_PRODUCT_ALLOWLIST"],
+      "credentialOwner": "system-owner",
+      "initialActions": ["complete-kyc", "enable-2fa", "create-read-only-restricted-key", "set-retry-final-cancel", "confirm-product-price-allowlist"],
+      "readOnlyChecks": ["account-id", "livemode", "product-price", "subscription-status", "latest-invoice"],
+      "productionActionsRequiringApproval": ["price-change", "refund", "cancel", "dispute-response", "live-mode-change"]
+    },
+    {
+      "id": "google-workspace",
+      "name": "Google Workspace (Sheets / Forms / Apps Script)",
+      "purpose": "運用台帳、Form、同期、バックアップ",
+      "systemOfRecord": ["form_response_raw", "supplemental_ops_data", "sync_log"],
+      "credentialNames": ["SPREADSHEET_ID", "OPS_NOTIFICATION_EMAIL", "BACKUP_FOLDER_ID", "BACKUP_RETENTION_DAYS", "BACKUP_MONTHLY_RETENTION_DAYS", "GOOGLE_FORM_ID", "PROFILE_EMAIL_ITEM_TITLE", "PROFILE_AFFILIATION_ITEM_TITLE", "PROFILE_TITLE_OR_ROLE_ITEM_TITLE", "PROFILE_PARTICIPANT_TYPE_ITEM_TITLE", "PROFILE_PRIVACY_ACK_ITEM_TITLE", "MAX_RUNTIME_MS", "BILLING_WATERMARK_OVERLAP_SECONDS", "SCHEMA_VERSION", "CODE_VERSION"],
+      "scriptPropertyNames": ["SPREADSHEET_ID", "OPS_NOTIFICATION_EMAIL", "BACKUP_FOLDER_ID", "BACKUP_RETENTION_DAYS", "BACKUP_MONTHLY_RETENTION_DAYS", "GOOGLE_FORM_ID", "PROFILE_EMAIL_ITEM_TITLE", "PROFILE_AFFILIATION_ITEM_TITLE", "PROFILE_TITLE_OR_ROLE_ITEM_TITLE", "PROFILE_PARTICIPANT_TYPE_ITEM_TITLE", "PROFILE_PRIVACY_ACK_ITEM_TITLE", "MAX_RUNTIME_MS", "BILLING_WATERMARK_OVERLAP_SECONDS", "SCHEMA_VERSION", "CODE_VERSION"],
+      "credentialOwner": "system-owner",
+      "initialActions": ["create-standalone-script", "create-sheet-tabs", "protect-system-columns", "create-org-owned-backup-folder", "install-hourly-nightly-triggers"],
+      "readOnlyChecks": ["spreadsheet-id", "tab-schema", "protected-ranges", "script-owner", "trigger-list"],
+      "productionActionsRequiringApproval": ["share-sheet", "change-script-owner", "edit-script-properties", "delete-response-or-backup"]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "purpose": "限定公開動画と非公開運営プレイリスト",
+      "systemOfRecord": ["video_media"],
+      "credentialNames": ["YOUTUBE_CHANNEL_ID"],
+      "credentialOwner": "content-owner",
+      "initialActions": ["confirm-rights", "confirm-unlisted", "confirm-private-playlist", "confirm-no-public-playlist"],
+      "readOnlyChecks": ["video-visibility", "playlist-visibility", "caption-presence"],
+      "productionActionsRequiringApproval": ["publish-video", "change-visibility", "delete-video"]
+    },
+    {
+      "id": "dropbox",
+      "name": "Dropbox",
+      "purpose": "PDF資料と共有リンク",
+      "systemOfRecord": ["pdf_media"],
+      "credentialNames": ["DROPBOX_ROOT_FOLDER"],
+      "credentialOwner": "content-owner",
+      "initialActions": ["confirm-folder", "confirm-link-policy", "confirm-rights"],
+      "readOnlyChecks": ["file-version", "link-permission", "link-expiry"],
+      "productionActionsRequiringApproval": ["create-share-link", "revoke-link", "replace-pdf"]
+    },
+    {
+      "id": "dns",
+      "name": "ドメイン/DNS事業者",
+      "purpose": "Ghostドメイン、送信ドメイン、HTTPS",
+      "systemOfRecord": ["domain_dns"],
+      "credentialNames": ["PRODUCTION_DOMAIN"],
+      "credentialOwner": "system-owner",
+      "initialActions": ["confirm-registrant", "prepare-ghost-records", "prepare-mail-auth-records", "plan-rollback"],
+      "readOnlyChecks": ["dns-records", "https", "mail-auth"],
+      "productionActionsRequiringApproval": ["change-dns", "change-mx", "change-mail-auth"]
+    }
+  ]
+}

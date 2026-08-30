@@ -1,0 +1,41 @@
+<header class="site-header">
+    <div class="container site-header__inner">
+        <a class="brand" href="{{@site.url}}" aria-label="{{@site.title}} トップ">
+            {{#if @site.logo}}
+                <img class="brand__logo" src="{{@site.logo}}" alt="{{@site.title}}" width="160" height="48">
+            {{else}}
+                <span class="brand__mark" aria-hidden="true">み</span>
+                <span class="brand__name">{{@site.title}}</span>
+            {{/if}}
+        </a>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-menu-toggle>
+            <span class="sr-only">メニューを開く</span>
+            <span aria-hidden="true" class="menu-toggle__icon"></span>
+        </button>
+
+        <nav id="site-navigation" class="site-nav" aria-label="メインナビゲーション" data-mobile-navigation>
+            <ul class="site-nav__list">
+                <li><a href="{{@site.url}}/about/">活動紹介</a></li>
+                <li><a href="{{@site.url}}/lectures/">レクチャー</a></li>
+                <li><a href="{{@site.url}}/membership/">会員案内・料金</a></li>
+                <li><a href="{{@site.url}}/faq/">FAQ</a></li>
+                <li class="site-nav__search">
+                    <a href="#/search" data-ghost-search>講義を検索</a>
+                </li>
+                {{#if @member}}
+                    {{#if @member.paid}}
+                        <li><a class="button button--small button--primary" href="{{@site.url}}/lectures/">ライブラリを見る</a></li>
+                        <li><a class="site-nav__account" href="#/portal/account">アカウント</a></li>
+                    {{else}}
+                        <li><a class="button button--small button--primary" href="#/portal/signup">再入会</a></li>
+                        <li><a class="site-nav__account" href="#/portal/account">アカウント</a></li>
+                    {{/if}}
+                {{else}}
+                    <li><a class="site-nav__login" href="#/portal/signin">ログイン</a></li>
+                    <li><a class="button button--small button--primary" href="#/portal/signup">会員になる</a></li>
+                {{/if}}
+            </ul>
+        </nav>
+    </div>
+</header>

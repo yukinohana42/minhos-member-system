@@ -1,0 +1,86 @@
+{
+  "members": [
+    {
+      "id": "ghost_member_paid",
+      "uuid": "uuid-paid",
+      "email": "Paid.Member@Example.com",
+      "name": "有料 会員",
+      "status": "paid",
+      "comped": false,
+      "created_at": "2026-01-01T00:00:00.000Z",
+      "updated_at": "2026-08-28T00:00:00.000Z",
+      "tiers": [{ "id": "ghost_tier_main", "tier_id": "ghost_tier_main", "name": "みんほす会員" }],
+      "subscriptions": [
+        {
+          "id": "sub_active_1",
+          "customer": { "id": "cus_paid_1", "name": "有料 会員", "email": "paid.member@example.com" },
+          "status": "active",
+          "start_date": 1767225600,
+          "cancel_at_period_end": false,
+          "current_period_start": 1787875200,
+          "current_period_end": 1790553600,
+          "price": {
+            "id": "price_main_monthly",
+            "price_id": "ghost_price_monthly",
+            "nickname": "月額",
+            "amount": 5500,
+            "interval": "month",
+            "currency": "jpy",
+            "tier": { "id": "stripe_product_main", "tier_id": "ghost_tier_main", "name": "みんほす会員" }
+          },
+          "tier": { "id": "ghost_tier_main", "name": "みんほす会員" }
+        }
+      ]
+    },
+    {
+      "id": "ghost_member_free",
+      "uuid": "uuid-free",
+      "email": "free@example.com",
+      "name": "無料 会員",
+      "status": "free",
+      "comped": false,
+      "tiers": [],
+      "subscriptions": []
+    },
+    {
+      "id": "ghost_member_comped",
+      "uuid": "uuid-comped",
+      "email": "comped@example.com",
+      "name": "無償 会員",
+      "status": "paid",
+      "comped": true,
+      "tiers": [{ "id": "ghost_tier_main", "tier_id": "ghost_tier_main", "name": "みんほす会員" }],
+      "subscriptions": [
+        {
+          "id": "",
+          "customer": { "id": "", "name": null, "email": null },
+          "status": "active",
+          "type": "comped",
+          "tier": { "id": "ghost_tier_main", "name": "みんほす会員" },
+          "price": { "id": "", "price_id": "", "tier": { "id": "stripe_product_main", "tier_id": "ghost_tier_main", "name": "みんほす会員" } }
+        }
+      ]
+    },
+    {
+      "id": "ghost_member_gift",
+      "uuid": "uuid-gift",
+      "email": "gift@example.com",
+      "name": "ギフト 会員",
+      "status": "paid",
+      "comped": false,
+      "tiers": [{ "id": "ghost_tier_main", "tier_id": "ghost_tier_main", "name": "みんほす会員" }],
+      "subscriptions": [
+        {
+          "id": "",
+          "customer": { "id": "", "name": null, "email": null },
+          "status": "active",
+          "type": "gift",
+          "gift": true,
+          "current_period_end": 1790553600,
+          "tier": { "id": "ghost_tier_main", "name": "みんほす会員" }
+        }
+      ]
+    }
+  ],
+  "meta": { "pagination": { "page": 1, "pages": 1, "next": null } }
+}

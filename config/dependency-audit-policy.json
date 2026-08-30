@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "severityThreshold": "high",
+  "exceptions": [
+    {
+      "packageDirectory": "packages/ghost-theme",
+      "advisory": "GHSA-jmr9-qjv8-65gv",
+      "source": 1139346,
+      "vulnerabilityNames": ["extract-zip", "@tryghost/zip", "gscan"],
+      "dependencyPath": [
+        {"name": "gscan", "version": "6.4.2"},
+        {"name": "@tryghost/zip", "version": "3.5.0"},
+        {"name": "extract-zip", "version": "2.0.1"}
+      ],
+      "scope": "development-only",
+      "reason": "The current official GScan 6.x release depends on extract-zip 2.0.1 and no patched extract-zip release exists. GScan remains required for Ghost 6 theme compatibility checks.",
+      "mitigations": [
+        "GScan is invoked only against the repository-controlled theme directory.",
+        "No external or user-supplied ZIP is passed to GScan.",
+        "The release ZIP is created and re-opened with fflate under a strict file allowlist.",
+        "GScan and all development dependencies are excluded from the uploaded theme ZIP."
+      ],
+      "owner": "system-owner",
+      "reviewBy": "2026-09-30",
+      "upstream": "https://github.com/TryGhost/gscan"
+    }
+  ]
+}

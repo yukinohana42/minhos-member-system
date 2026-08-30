@@ -1,0 +1,36 @@
+{{!< default}}
+
+{{#tag}}
+    <section class="page-hero page-hero--compact">
+        <div class="container">
+            <p class="eyebrow">LECTURE FILTER</p>
+            <h1>{{name}}</h1>
+            {{#if description}}<p>{{description}}</p>{{/if}}
+            <a class="text-link text-link--light" href="{{@site.url}}/lectures/">講義一覧に戻る<span aria-hidden="true"> →</span></a>
+        </div>
+    </section>
+{{/tag}}
+
+<section class="section" aria-labelledby="tag-results-title">
+    <div class="container">
+        <div class="section-heading section-heading--list">
+            <div>
+                <p class="eyebrow">FILTERED ARCHIVE</p>
+                {{#tag}}<h2 id="tag-results-title">「{{name}}」の講義</h2>{{/tag}}
+            </div>
+            <p class="section-heading__count" aria-live="polite">{{plural pagination.total empty="講義はありません" singular="%件" plural="%件"}}</p>
+        </div>
+        <div class="lecture-grid" data-lecture-list>
+            {{#foreach posts visibility="paid"}}
+                {{> "lecture-card"}}
+            {{else}}
+                <div class="empty-state empty-state--wide">
+                    <h3>該当する講義がありません</h3>
+                    <p>別の条件を選ぶか、講義一覧へ戻って条件を解除してください。</p>
+                    <a class="button button--secondary" href="{{@site.url}}/lectures/">講義一覧へ戻る</a>
+                </div>
+            {{/foreach}}
+        </div>
+        {{> "pagination" label="講義"}}
+    </div>
+</section>

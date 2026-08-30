@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /packages/ghost-theme
+    schedule:
+      interval: monthly
+    groups:
+      development-dependencies:
+        dependency-type: development
+        patterns:
+          - "*"
+    labels:
+      - dependencies
+      - security
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: npm
+    directory: /packages/apps-script
+    schedule:
+      interval: monthly
+    groups:
+      development-dependencies:
+        dependency-type: development
+        patterns:
+          - "*"
+    labels:
+      - dependencies
+      - security
+    open-pull-requests-limit: 3

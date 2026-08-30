@@ -1,0 +1,34 @@
+{{!< default}}
+
+<section class="page-hero page-hero--compact">
+    <div class="container">
+        <p class="eyebrow">{{@site.title}}</p>
+        <h1>お知らせ</h1>
+        {{#if @site.description}}<p>{{@site.description}}</p>{{/if}}
+    </div>
+</section>
+
+<section class="section" aria-labelledby="updates-title">
+    <div class="container narrow-container">
+        <h2 class="sr-only" id="updates-title">お知らせ一覧</h2>
+        <div class="post-list">
+            {{#foreach posts}}
+                <article class="post-list-item">
+                    <time datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="YYYY年M月D日"}}</time>
+                    <h3><a href="{{url}}">{{title}}</a></h3>
+                    {{#if custom_excerpt}}
+                        <p>{{custom_excerpt}}</p>
+                    {{else}}
+                        <p class="post-list-item__excerpt--fallback">お知らせの概要は本文でご確認ください。</p>
+                    {{/if}}
+                </article>
+            {{else}}
+                <div class="empty-state">
+                    <h3>お知らせはありません</h3>
+                    <p>新しい情報は準備が整い次第お知らせします。</p>
+                </div>
+            {{/foreach}}
+        </div>
+        {{> "pagination" label="お知らせ"}}
+    </div>
+</section>

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0",
+  "form": {
+    "id": "minhos-supplemental-profile",
+    "audience": "paid-members-only",
+    "access": "linked-from-paid-welcome-page-only",
+    "publicUrlPolicy": "never-place-url-in-public-pages-or-email",
+    "responseDestination": "30_Profile_RAW",
+    "purposeStatementRequired": true,
+    "privacyNoticeRequired": true,
+    "owner": "system-owner",
+    "fields": [
+      {
+        "id": "profile_email",
+        "label": "Ghost登録メールアドレス",
+        "type": "email",
+        "required": true,
+        "sourceOfTruth": "matching-only",
+        "normalization": "trim-and-lowercase-only",
+        "sensitive": false
+      },
+      {
+        "id": "affiliation",
+        "label": "所属",
+        "type": "short-answer",
+        "required": false,
+        "sourceOfTruth": "form-processing",
+        "sensitive": false,
+        "purpose": "運営上の連絡・参加状況の把握"
+      },
+      {
+        "id": "title_or_role",
+        "label": "肩書き・役割",
+        "type": "short-answer",
+        "required": false,
+        "sourceOfTruth": "form-processing",
+        "sensitive": false,
+        "purpose": "講義内容・案内の適合性確認"
+      },
+      {
+        "id": "participant_type",
+        "label": "参加区分",
+        "type": "multiple-choice",
+        "required": false,
+        "choices": ["参加者", "登壇者", "運営", "その他"],
+        "sourceOfTruth": "form-processing",
+        "sensitive": false,
+        "purpose": "運営導線の整理"
+      },
+      {
+        "id": "privacy_acknowledgement",
+        "label": "利用目的と窓口を確認しました",
+        "type": "checkbox",
+        "required": true,
+        "sourceOfTruth": "consent-record",
+        "sensitive": false
+      }
+    ]
+  },
+  "matching": {
+    "responseIdentitySource": "FormResponse.getId()",
+    "responseIdentityStorage": "40_Supplemental.profile_response_id",
+    "rawSheetHasResponseIdColumn": false,
+    "candidateKey": "profile_email",
+    "stableJoinKeyAfterMatch": "ghost_member_id",
+    "allowedNormalization": ["trim", "lowercase"],
+    "forbiddenNormalization": ["remove-dots", "remove-plus-tag"],
+    "unmatchedAction": "create-review-required-exception",
+    "multipleMatchAction": "create-review-required-exception",
+    "repeatResponseAction": "do-not-overwrite-effective-value",
+    "neverChanges": ["ghost_access", "stripe_billing", "staff_role"]
+  },
+  "forbiddenFields": ["address", "card_number", "security_code", "kyc_document", "identity_document", "medical_information", "password"]
+}

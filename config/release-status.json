@@ -1,0 +1,915 @@
+{
+  "schemaVersion": "2.0",
+  "environment": "production",
+  "productionOnly": true,
+  "declaredDecision": "NO_GO",
+  "lastReviewed": "2026-08-28",
+  "release": {
+    "releaseId": null,
+    "candidateCommitSha": null,
+    "targetEnvironmentId": null,
+    "requirementsVersion": "v1.1",
+    "requirementsSha256": null,
+    "reviewedAt": null,
+    "actor": null,
+    "approver": null,
+    "artifactPath": null,
+    "artifactSha256": null,
+    "artifactSourceSha256": null,
+    "artifactChecksumsSha256": null,
+    "evidenceIds": []
+  },
+  "notes": "外部サービス接続、本番変更、実決済、手動受入、ローンチ決定は未実施または未確定。未確認を合格として扱わない。",
+  "acceptanceTests": [
+    {
+      "id": "AT-01",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-02",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-03",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-04",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-05",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-06",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-07",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-08",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-09",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-10",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-11",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-12",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-13",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-14",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-15",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-16",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-17",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-18",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-19",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-20",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-21",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-22",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-23",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-24",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-25",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-26",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-27",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-28",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-29",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-30",
+      "status": "NOT_RUN",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-31",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-32",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-33",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-34",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-35",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-36",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-37",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-38",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-39",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-40",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-41",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-42",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-43",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-44",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "AT-45",
+      "status": "NOT_RUN",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-01",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-02",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-03",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-04",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-05",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-06",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-07",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-08",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-09",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-10",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-11",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-12",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-13",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-14",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-15",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-16",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-17",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-18",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-19",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-20",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "DEC-21",
+      "status": "NOT_DECIDED",
+      "owner": "responsible-owner",
+      "evidenceIds": []
+    }
+  ],
+  "blockers": [
+    {
+      "id": "BLK-EXT-01",
+      "severity": "P1",
+      "status": "OPEN",
+      "owner": "system-owner",
+      "description": "Ghost、Stripe、Google Workspace等の本番接続と承認済みtest mode証跡が未完了。",
+      "evidenceIds": []
+    },
+    {
+      "id": "BLK-EXT-02",
+      "severity": "P1",
+      "status": "OPEN",
+      "owner": "responsible-owner",
+      "description": "本番アカウント所有、秘密情報境界、外部接続Gate 0〜5の承認が未完了。",
+      "evidenceIds": []
+    },
+    {
+      "id": "BLK-LEGAL-01",
+      "severity": "P1",
+      "status": "OPEN",
+      "owner": "responsible-owner",
+      "description": "法務文書、講師許諾、個人情報保存期間、外部URL再共有リスクの決定が未完了。",
+      "evidenceIds": []
+    },
+    {
+      "id": "BLK-OPS-01",
+      "severity": "P2",
+      "status": "OPEN",
+      "owner": "system-owner",
+      "description": "手動受入、バックアップ復元、rollback、監視、問い合わせ担当の本番証跡が未完了。",
+      "evidenceIds": []
+    }
+  ],
+  "operationalChecks": [
+    {
+      "id": "OC-PUB-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PUB-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PUB-04",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "theme-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PUB-05",
+      "releaseApplicability": "mvp-advisory",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-AUTH-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-AUTH-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-AUTH-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-AUTH-04",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "implementation-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-AUTH-06",
+      "releaseApplicability": "mvp-advisory",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-04",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-06",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-07",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-08",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-09",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-10",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PAY-11",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-03A",
+      "releaseApplicability": "mvp-advisory",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-03B",
+      "releaseApplicability": "future/non-mvp",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-06",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-07",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-09",
+      "releaseApplicability": "mvp-advisory",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-10A",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-CNT-10B",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "content-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-04",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-05",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-06",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-07",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-PROF-09",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "member-ops-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-06",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-07",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-08",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-09",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-10",
+      "releaseApplicability": "future/non-mvp",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SYNC-14",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "sync-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-OPS-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-OPS-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-OPS-06",
+      "releaseApplicability": "mvp-advisory",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-OPS-07",
+      "releaseApplicability": "mvp-advisory",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-OPS-08",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SUP-01",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SUP-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SUP-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SUP-04",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SUP-05",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SUP-06",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-02",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-03",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-05",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-06",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-07",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-08",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-09",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    },
+    {
+      "id": "OC-SEC-11",
+      "releaseApplicability": "production-required",
+      "status": "NOT_RUN",
+      "owner": "system-owner",
+      "evidenceIds": []
+    }
+  ],
+  "evidenceRegistry": []
+}

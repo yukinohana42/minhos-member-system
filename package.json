@@ -1,0 +1,28 @@
+{
+  "name": "minhos-member-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "みんほす会員管理・コンテンツ配信システムの開発ハーネス",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.3 <23"
+  },
+  "scripts": {
+    "check": "node scripts/verify.mjs",
+    "verify": "npm run verify:all",
+    "install:packages": "node scripts/install-packages.mjs",
+    "check:packages": "node scripts/check-packages.mjs",
+    "audit:packages": "node scripts/audit-packages.mjs",
+    "verify:all": "npm run check && npm run check:packages && npm test",
+    "verify:ci": "npm run verify:all && npm run audit:packages",
+    "test:packages": "node scripts/check-packages.mjs --tests-only",
+    "build:packages": "node scripts/check-packages.mjs --build-only",
+    "gscan": "node scripts/check-packages.mjs --gscan-only",
+    "check:config": "node scripts/check-config.mjs",
+    "check:requirements": "node scripts/check-requirements.mjs",
+    "release:gate": "node scripts/check-release-readiness.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "progress": "node scripts/progress-log.mjs"
+  }
+}

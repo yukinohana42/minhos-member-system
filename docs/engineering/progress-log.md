@@ -1,0 +1,25 @@
+# Progress log
+
+短いループのチェックポイントを一行ずつ記録します。外部接続や本番変更が未実施であることも明記します。
+
+| 日時 | status | note | evidence | next |
+|---|---|---|---|---|
+| 2026-08-28 12:00 JST | prepared | 要件書 v1.1 を読み、ルートハーネス・設定・文書の変更境界を確定。packages/** は変更しない | docs/minhos-membership-requirements-v1.1.md; AGENTS.md | configとCIの静的検証を通す |
+| 2026-08-28 12:20 JST | prepared | Ghost/Stripe/Google Workspaceの接続前ゲート、Sheets/Form schema、秘密境界を定義。実アカウント操作は未実施 | docs/engineering/external-connection-readiness.md; config/*.json | npm run check と npm test |
+| 2026/08/28 13:16:17 | verified | root config・requirements・secrets check とハーネスtestが成功。外部接続・実決済は未実施 | npm run check; npm test | packagesのlock/node_modules準備後に npm run install:packages と npm run verify:all |
+| 2026-08-28 16:40 JST | in-progress | Ghostテーマ、Apps Script、要件トレース、リリースゲートのP1再監査修正を実施。外部接続・実決済は未実施 | Ghost 9 tests/GScan; Apps 78 tests/typecheck/build; root harness | Apps追加監査修正後に全検証とGitHub CIを通す |
+| 2026-08-28 17:06 JST | verified-root | GitHub Actionsをselected＋完全長SHA pinへ固定するAPI正本とworkflow双方向ドリフト検査を追加。GitHub API適用は未実施 | npm ci; npm run install:packages; npm run check (PASS); npm test (34/34 PASS); Actions mutation tests (3/3 PASS); npm run verify:all (root/Ghost PASS、共有Apps中間変更でred) | Apps変更収束後にverify:allを再実行し、責任者レビュー後にActions permissionsを適用・read-backする |
+| 2026/08/28 17:14:29 | paused-checkpoint | 再開ハンドオフを追加。verify:all PASS（root 34/34、Ghost 9/9、Apps Script 95/95・typecheck/build、GScan・秘密情報検査）。GitHub Actions制限設定はAPI適用・read-back済み。commit/push・外部接続は未実施。 | npm run verify:all; npm run check; Ghost ZIP SHA-256 11F47C2103FFC01B1990A262CFA9D9119483CB6D34C1F004AC09A26F92835009 | docs/engineering/resume-handoff.mdに従い、Apps Script公開前No-Go 1のitem-level resumeから再開する |
+| 2026/08/28 22:50:10 | verified | Public No-Go #2: 通知outboxのproperty単位tolerant parse、hash-only quarantine、legacy aggregate移行、write先行・冪等・fail-closed repairをSyncService/Formの共有ScriptLock経路へ統合。外部接続・commit・pushは未実施 | packages/apps-script npm run verify (typecheck; 23 files/141 tests; build PASS); npm run verify:all (root config/requirements/secrets, Ghost 9 tests/GScan/build, Apps 141 tests/typecheck/build, root 34 tests PASS) | 実Apps Script quota、trigger、メール到達の手動受入とNo-Go残件を責任者承認後に確認 |
+| 2026/08/28 23:35:35 | paused-checkpoint | Apps ScriptのForm trigger/retry、identity、runtime validation強化後に実装拡張を停止。現在はtypecheck PASSだがfixture／harness／lease境界の安定化中で16 testsがFAIL。one-shot successor途切れのP1候補もハンドオフへ固定。外部接続・commit・pushなし | Apps check PASS; Apps tests 150/166 PASS・16 FAIL; root tests 33/34 PASS・config dynamic property分類3件FAIL; Ghost 9/9 PASS; docs/engineering/resume-handoff.md | ハンドオフ順にproperty registry→repository→Form harness→runtime fixtures→lease→successor UID markerを閉じ、全検証green後にread-only再監査 |
+| 2026/08/28 23:52:08 | paused-checkpoint | 既知16 failuresをfail-closed契約を弱めず解消。Form retry successor UID markerとhash-only corrupt-marker quarantineを追加し、overlap/runtime-kill相当fixtureでchain継続を確認。全ローカル検証green。外部接続・commit・pushなし | npm run verify:all PASS; root 34/34; Ghost 9/9・GScan・URL guard・build; Apps Script 28 files/180 tests・typecheck・build; config/requirements/secrets PASS | 次回はコード変更なしのfocused auditから再開し、P0/P1なし確認後にpackage auditとGit署名方針確認へ進む |
+| 2026/08/29 06:35:00 | paused-checkpoint | オンラインpackage auditと3系統のread-only focused auditを完了。P0なし、コードP1 4件（successor保存失敗liveness、cursor quarantine前identity、Subscription/Grant cross-table identity、Subscription/Invoice pre-write page validation）とP2通知順序を確認。外部接続・commit・pushなし | npm run audit:packages PASS（未承認high/critical 0、期限内development-only例外1）; focused audit reports; docs/engineering/resume-handoff.md | P1を記載順にテスト先行で閉じ、全verifyと変更禁止再監査後にGit署名方針確認へ進む |
+| 2026/08/30 10:38:56 | verified-local | 要件v1.1に対する再開実装と多段変更禁止監査を完了。cursor owner-fence、tombstone再開、Ghost投影、Form native RAW境界、Ghost設定Runbookを含めローカルP0/P1/P2 0件。外部接続・実決済・本番公開は未実施 | npm ci; npm run install:packages; npm run verify:all PASS（root 35/35、Ghost 10/10、Apps 30 files/214 tests、typecheck/build/GScan/secrets）; npm run audit:packages PASS; focused re-audits | secret scanとstage内容を再確認し、初回commit/push→GitHub Actions→main protectionへ進む |
+
+## 記録ルール
+
+```powershell
+npm run progress -- --status "verified" --note "検証内容" --evidence "コマンドまたは証跡" --next "次の安全な操作"
+```
+
+秘密値、カード情報、個人情報、保護本文、外部URLの実値は記録しません。

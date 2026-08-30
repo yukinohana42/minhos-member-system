@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="{{@site.locale}}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#143d3a">
+    <title>{{meta_title}}</title>
+    <link rel="stylesheet" href="{{asset "css/screen.css"}}">
+    {{#if @site.icon}}
+        <link rel="icon" href="{{@site.icon}}" type="image/png">
+    {{/if}}
+    {{ghost_head}}
+</head>
+<body class="{{body_class}}">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    {{> "site-header"}}
+    {{> "member-state"}}
+
+    <main id="main-content" tabindex="-1">
+        {{{body}}}
+    </main>
+
+    {{> "site-footer"}}
+    <script src="{{asset "js/site.js"}}" defer></script>
+    {{ghost_foot}}
+</body>
+</html>

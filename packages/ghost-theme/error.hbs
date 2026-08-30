@@ -1,0 +1,15 @@
+{{!< default}}
+
+<section class="section section--large error-page" aria-labelledby="error-title">
+    <div class="container narrow-container">
+        <p class="eyebrow">{{statusCode}}</p>
+        <h1 id="error-title">ページを表示できません</h1>
+        <p>{{message}}</p>
+        <p>URLをご確認いただくか、以下のページからお探しください。</p>
+        <div class="button-row">
+            <a class="button button--primary" href="{{@site.url}}">トップへ戻る</a>
+            <a class="button button--secondary" href="{{@site.url}}/lectures/">レクチャー一覧</a>
+            <a class="button button--secondary" href="{{@site.url}}/contact/">お問い合わせ</a>
+        </div>
+    </div>
+</section>

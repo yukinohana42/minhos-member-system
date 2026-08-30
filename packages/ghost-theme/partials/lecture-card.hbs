@@ -1,0 +1,36 @@
+<article class="lecture-card" data-lecture-card data-lecture-title="{{title}}" aria-labelledby="lecture-card-title-{{id}}">
+    {{#if feature_image}}
+        <a class="lecture-card__image-link" href="{{url}}" aria-label="{{title}}の詳細を開く">
+            <img class="lecture-card__image" src="{{img_url feature_image size="m"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy" width="800" height="450">
+        </a>
+    {{/if}}
+    <div class="lecture-card__body">
+        <div class="lecture-card__meta">
+            <span class="access-label {{#if access}}access-label--available{{/if}}">
+                {{#if access}}会員｜閲覧可{{else}}会員限定{{/if}}
+            </span>
+            <time datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="YYYY年M月D日"}}</time>
+        </div>
+        <h2 class="lecture-card__title" id="lecture-card-title-{{id}}"><a href="{{url}}">{{title}}</a></h2>
+        {{#foreach tags}}
+            {{#match slug "~^" "speaker-"}}
+                <p class="lecture-card__speaker">講師：<a href="{{url}}">{{name}}</a></p>
+            {{/match}}
+        {{/foreach}}
+        <div class="tag-list tag-list--card" aria-label="分類">
+            {{#foreach tags}}
+                {{#match slug "~^" "year-"}}
+                    <a class="tag-chip" href="{{url}}">{{name}}</a>
+                {{else match slug "~^" "topic-"}}
+                    <a class="tag-chip" href="{{url}}">{{name}}</a>
+                {{/match}}
+            {{/foreach}}
+        </div>
+        {{#if custom_excerpt}}
+            <p class="lecture-card__excerpt">{{custom_excerpt}}</p>
+        {{else}}
+            <p class="lecture-card__excerpt lecture-card__excerpt--fallback">講義の概要は会員ライブラリでご覧いただけます。</p>
+        {{/if}}
+        <a class="text-link lecture-card__link" href="{{url}}">講義の詳細を見る<span aria-hidden="true"> →</span></a>
+    </div>
+</article>

@@ -1,0 +1,50 @@
+{{#if @member}}
+    {{!-- Scan subscriptions independently of @member.paid so paused is reachable. --}}
+    {{#foreach @member.subscriptions}}
+        {{!-- Payment problems take precedence over a period-end cancellation notice. --}}
+        {{#match status "unpaid"}}
+            <aside class="member-state member-state--critical" aria-label="支払いに関する重要なお知らせ">
+                <p><strong>お支払いの確認が必要です。</strong> アカウントから決済方法と契約状態をご確認ください。</p>
+                <a class="text-link" href="#/portal/account">アカウントを確認</a>
+            </aside>
+        {{else match status "past_due"}}
+            <aside class="member-state member-state--attention" aria-label="支払いに関するお知らせ">
+                <p><strong>お支払いを確認しています。</strong> 閲覧権限は継続していますが、決済方法をご確認ください。</p>
+                <a class="text-link" href="#/portal/account">支払い方法を確認</a>
+            </aside>
+        {{else match status "paused"}}
+            <aside class="member-state member-state--critical" aria-label="契約状態に関する重要なお知らせ">
+                <p><strong>契約状態の確認が必要です。</strong> アカウントから契約をご確認ください。</p>
+                <a class="text-link" href="#/portal/account">アカウントを確認</a>
+            </aside>
+        {{else}}
+            {{#if cancel_at_period_end}}
+                <aside class="member-state member-state--attention" aria-label="契約状態のお知らせ">
+                    <p><strong>期間末の解約が予約されています。</strong> {{date current_period_end format="YYYY年M月D日"}}まではライブラリを利用できます。</p>
+                    <a class="text-link" href="#/portal/account">解約予約を確認・取り消す</a>
+                </aside>
+            {{else}}
+                {{#match status "trialing"}}
+                    <aside class="member-state member-state--attention" aria-label="契約状態のお知らせ">
+                        <p><strong>お試し期間中です。</strong> 契約条件と次回のお支払いをご確認ください。</p>
+                        <a class="text-link" href="#/portal/account">契約を確認</a>
+                    </aside>
+                {{else match status "canceled"}}
+                    {{#unless @member.paid}}
+                        <aside class="member-state member-state--inactive" aria-label="会員状態">
+                            <p><strong>現在、ライブラリの閲覧権限を確認できません。</strong> Portalから再入会できます。</p>
+                            <a class="text-link" href="#/portal/signup">再入会</a>
+                        </aside>
+                    {{/unless}}
+                {{/match}}
+            {{/if}}
+        {{/match}}
+    {{else}}
+        {{#unless @member.paid}}
+            <aside class="member-state member-state--inactive" aria-label="会員状態">
+                <p><strong>現在、ライブラリの閲覧権限を確認できません。</strong> Portalから再入会できます。</p>
+                <a class="text-link" href="#/portal/signup">再入会</a>
+            </aside>
+        {{/unless}}
+    {{/foreach}}
+{{/if}}

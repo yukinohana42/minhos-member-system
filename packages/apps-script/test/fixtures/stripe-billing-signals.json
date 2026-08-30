@@ -1,0 +1,100 @@
+{
+  "charges": [
+    {
+      "id": "ch_partial",
+      "amount": 5500,
+      "amount_refunded": 1000,
+      "customer": "cus_paid_1",
+      "invoice": {
+        "id": "in_paid_1",
+        "status": "paid",
+        "customer": "cus_paid_1",
+        "parent": { "type": "subscription_details", "subscription_details": { "subscription": "sub_active_1" } },
+        "amount_due": 5500,
+        "currency": "jpy"
+      },
+      "payment_intent": "pi_paid_1"
+    },
+    {
+      "id": "ch_dispute",
+      "amount": 5500,
+      "amount_refunded": 0,
+      "customer": "cus_due_1",
+      "invoice": "in_open_1",
+      "payment_intent": "pi_failed_1"
+    }
+  ],
+  "payment_intents": [
+    { "id": "pi_paid_1", "customer": "cus_paid_1", "invoice": "in_paid_1" },
+    { "id": "pi_failed_1", "customer": "cus_due_1", "invoice": "in_open_1", "last_payment_error": { "created": 1787875300 } }
+  ],
+  "invoices": [
+    {
+      "id": "in_paid_1",
+      "status": "paid",
+      "customer": "cus_paid_1",
+      "parent": { "type": "subscription_details", "subscription_details": { "subscription": "sub_active_1" } },
+      "amount_due": 5500,
+      "amount_paid": 5500,
+      "currency": "jpy"
+    },
+    {
+      "id": "in_open_1",
+      "status": "open",
+      "customer": "cus_due_1",
+      "subscription": "sub_past_due_1",
+      "amount_due": 5500,
+      "amount_paid": 0,
+      "currency": "jpy"
+    }
+  ],
+  "refunds": [
+    {
+      "id": "re_partial_pending",
+      "amount": 1000,
+      "currency": "jpy",
+      "status": "pending",
+      "created": 1787875400,
+      "charge": "ch_partial",
+      "payment_intent": null
+    },
+    {
+      "id": "re_full_failed",
+      "amount": 5500,
+      "currency": "jpy",
+      "status": "failed",
+      "created": 1787875500,
+      "charge": null,
+      "payment_intent": "pi_paid_1"
+    },
+    {
+      "id": "re_unmatched",
+      "amount": 500,
+      "currency": "jpy",
+      "status": "succeeded",
+      "created": 1787875600,
+      "charge": null,
+      "payment_intent": null
+    }
+  ],
+  "disputes": [
+    {
+      "id": "dp_open",
+      "amount": 5500,
+      "currency": "jpy",
+      "status": "needs_response",
+      "created": 1787875700,
+      "charge": "ch_dispute",
+      "payment_intent": null
+    },
+    {
+      "id": "dp_won",
+      "amount": 5500,
+      "currency": "jpy",
+      "status": "won",
+      "created": 1787875800,
+      "charge": "ch_dispute",
+      "payment_intent": null
+    }
+  ]
+}

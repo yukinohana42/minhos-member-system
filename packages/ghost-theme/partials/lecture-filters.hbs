@@ -1,0 +1,46 @@
+<section class="lecture-filters" aria-labelledby="lecture-filters-title">
+    <div class="lecture-filters__topline">
+        <div>
+            <p class="eyebrow">探す</p>
+            <h2 id="lecture-filters-title">講義を探す</h2>
+        </div>
+        <div class="lecture-filters__search">
+            <button class="button button--secondary" type="button" data-ghost-search>キーワードで検索</button>
+            <span class="lecture-result-count" data-lecture-count aria-live="polite">講義を読み込みました</span>
+        </div>
+    </div>
+    <p class="lecture-filters__hint">開催年・テーマ・講師を選ぶと、該当する講義一覧へ移動します。条件はブラウザの戻る操作でも復元できます。</p>
+    <div class="lecture-filter-groups">
+        <div class="lecture-filter-group">
+            <h3>開催年</h3>
+            <div class="filter-chip-list">
+                {{#get "tags" filter="slug:~^'year-'" limit="100" order="name asc"}}
+                    {{#foreach tags}}
+                        <a class="filter-chip" href="{{url}}">{{name}}</a>
+                    {{/foreach}}
+                {{/get}}
+            </div>
+        </div>
+        <div class="lecture-filter-group">
+            <h3>テーマ</h3>
+            <div class="filter-chip-list">
+                {{#get "tags" filter="slug:~^'topic-'" limit="100" order="name asc"}}
+                    {{#foreach tags}}
+                        <a class="filter-chip" href="{{url}}">{{name}}</a>
+                    {{/foreach}}
+                {{/get}}
+            </div>
+        </div>
+        <div class="lecture-filter-group">
+            <h3>講師</h3>
+            <div class="filter-chip-list">
+                {{#get "tags" filter="slug:~^'speaker-'" limit="100" order="name asc"}}
+                    {{#foreach tags}}
+                        <a class="filter-chip" href="{{url}}">{{name}}</a>
+                    {{/foreach}}
+                {{/get}}
+            </div>
+        </div>
+    </div>
+    <a class="clear-filters" href="{{@site.url}}/lectures/">条件をすべて解除</a>
+</section>
