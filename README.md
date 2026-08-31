@@ -4,7 +4,7 @@ Ghost(Pro) を会員サイト兼CMS、Stripe を課金の正本、Google Sheets 
 
 ## 現在地
 
-MVP実装、変更禁止再監査、公開Git履歴のprivacy修復、最新`main`のGitHub Actions、artifact checksum、main保護、Actions／security設定のread-backまで、コード／GitHub側の接続準備は完了しています。一回限りの履歴修復は再実行しません。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへの外部Gate 0〜5、実接続、本番変更はまだ実行しておらず、production release gateは`NO_GO`です。責任者が第20章の決定事項、所有者・復旧担当、秘密情報境界、外部URL再共有リスク、回収設定、法務・権利、保存期間を確定してからtest mode接続へ進みます。
+MVP実装、変更禁止再監査、公開Git履歴のprivacy修復、最新`main`のGitHub Actions、artifact checksum、main保護、Actions／security設定のread-backまで、コード／GitHub側の接続準備は完了しています。一回限りの履歴修復は再実行しません。2026-08-31に隔離testの作業範囲、予定FQDN`members.minhos-management.jp`、Tier`みんほす会員`・月額1,100円（税込）、公開予定サポート`support@minhos-management.jp`が承認されました。Gate 1／2の非公開台帳shellと2タブは作成・非公開read-back済みです。現在はDEC-06の実講師候補、DEC-07／Gate 1の副担当・復旧記録、Gate 2 pre-entry境界の責任者確認が未完で、`G0-T` entry前です。Ghost、Stripe、Google Workspace、YouTube、Dropbox、DNSへのGate 3実接続、本番変更は実行しておらず、production release gateは`NO_GO`です。
 
 ## 設計の要点
 

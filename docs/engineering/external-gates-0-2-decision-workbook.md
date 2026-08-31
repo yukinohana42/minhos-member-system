@@ -2,7 +2,7 @@
 
 ## この文書の位置づけ
 
-この文書は、Ghost／Stripe／Google Workspaceのtest環境へ接続する前に、要件書第20章の`DEC-01`〜`DEC-21`、サービス所有者、秘密情報境界を確認するための**未承認ドラフト**です。test接続に必要な決定と、本番公開まで保留できる決定を分け、運営責任者の確認回数を最小化します。回答が確定するまでGate 0〜2の証跡ではなく、`config/release-status.json`も更新しません。本番判定は引き続き`NO_GO`です。
+この文書は、Ghost／Stripe／Google Workspaceのtest環境へ接続する前に、要件書第20章の`DEC-01`〜`DEC-21`、サービス所有者、秘密情報境界を確認するワークブックです。2026-08-31にtest向け推奨案と項目8の作業範囲が承認されました。test接続に必要な決定と、本番公開まで保留できる決定を分け、運営責任者の確認回数を最小化します。正式な値なし記録は`docs/evidence/records/external-gates-0-2-approval-20260831.md`です。`config/release-status.json`はproduction candidate専用のため更新せず、本番判定は引き続き`NO_GO`です。
 
 秘密値、2FAコード、カード情報、副担当者等の非公開個人名、実アカウントIDはこの文書、Git、Sheet、ログ、チャットへ記録しません。副担当者の氏名や復旧情報は、運営責任者が管理する制限付きの外部権限表へだけ記録します。公開予定の講師名はDEC-06の候補として扱えます。
 
@@ -14,24 +14,36 @@
 - 契約、KYC、2FA、GhostとStripeの初回接続承認、DNS最終確認、法務最終判断、本番公開、実カード確認は運営責任者が行う。
 - Stripeを課金の正本、Ghostを閲覧権限の正本、Sheetsを一方向の運用台帳とする。
 
+## 2026-08-31 承認後の状態
+
+- `G0 Decision`: `OPEN`
+- `G0-T`の作業範囲: `APPROVED`
+- `G0-T` entry: `PENDING_PREREQUISITES`
+- Gate 1: `OPEN — REGISTER_CREATED / PRIVATE_COMPLETION_PENDING`
+- Gate 2 pre-entry boundary: `OPEN — INVENTORY_CREATED / OWNER_CONFIRMATION_PENDING`
+- Gate 2 runtime verification: `NOT_STARTED — GATE_3`
+- production: `NO_GO`
+
+DEC-01／02／03／04／05／08／19／21はtest向け判断として確定しました。DEC-06はtest分類まで、DEC-07は主担当role方針までの部分確定です。実講師候補と、非公開の副担当・復旧記録が揃うまで`G0-T`へentryしません。
+
 ## Gate 0 — DEC-01〜21
 
-`承認状態`は全件`未承認`から開始します。推奨案をそのまま採用する場合も、運営責任者の一括承認後にだけ決定扱いとします。
+`承認状態`は本番releaseの状態ではなく、このworkbook上のtest向け判断を示します。実設定・実測が未完の項目を合格扱いにはしません。
 
 ### 実装・test接続に必要な決定
 
 | ID | 決定対象 | 推奨案／回答が必要な値 | 承認状態 |
 |---|---|---|---|
-| DEC-01 | サイト名・ロゴ・色・文体 | 表示名`みんほす`、既存ロゴ／ブランド色、親しみやすく専門性を保つ文体 | 未承認 |
-| DEC-02 | 本番ドメイン | test接続先はGhost既定ドメイン。本番の採用FQDNは`G0-T`前に回答必須。DNS変更はGate 5まで行わない | 未承認 |
-| DEC-03 | Tier・価格・税表示 | Tier名`みんほす会員`、月額のみ、JPY・税込表示。月額金額は**回答必須** | 未承認 |
-| DEC-04 | 無料募集・trial・coupon | MVPではすべて無効。休会、gift、通常運用のcompedも使わない | 未承認 |
-| DEC-05 | Ghost／Form収集項目 | Ghostは氏名欄＋必須メール。Formは登録メールと同意checkboxを必須、所属・肩書き・参加区分は任意。Form未回答でも閲覧可 | 未承認 |
-| DEC-06 | レクチャー分類 | 正式な初期開催年／テーマ／講師候補を`G0-T`前に承認。開催年は開催日から`year-*`へ分類し、同義タグを自動統合しない。test fixtureでは別途`テスト年`／`テストテーマ`／`テスト講師`を使用可 | 未承認 |
-| DEC-07 | 役割 | MVP開始時は運営責任者がシステム／コンテンツ／会員管理を兼務、閲覧専用担当なし。副担当は制限付き外部権限表で指定 | 未承認 |
-| DEC-08 | サポート | 組織所有メール、一次回答2営業日以内。公開メールアドレスは**回答必須** | 未承認 |
-| DEC-19 | 問い合わせ方式 | サポートメールへの`mailto:`と案内文。問い合わせFormは作らない | 未承認 |
-| DEC-21 | Ghost Portal | 氏名欄、対象Tier／Price、規約notice、必須同意checkbox、サポートメールを有効化 | 未承認 |
+| DEC-01 | サイト名・ロゴ・色・文体 | 表示名`みんほす`、既存ロゴ／ブランド色、親しみやすく専門性を保つ文体 | test確定 |
+| DEC-02 | 本番ドメイン | 親ドメイン`minhos-management.jp`、会員サイト予定FQDN`members.minhos-management.jp`。testはGhost既定ドメインを使用し、DNS変更はGate 5まで行わない | test確定・DNS未検証 |
+| DEC-03 | Tier・価格・税表示 | Tier名`みんほす会員`、月額のみ、JPY 1,100円・税込表示、年額なし。改名時は表示名だけを変更し、既存ID／契約履歴を再作成しない。価格改定は新Priceを作る | test確定・税務はDEC-18 |
+| DEC-04 | 無料募集・trial・coupon | MVPではすべて無効。休会、gift、通常運用のcompedも使わない | test確定 |
+| DEC-05 | Ghost／Form収集項目 | Ghostは氏名欄＋必須メール。Formは登録メールと同意checkboxを必須、所属・肩書き・参加区分は任意。Form未回答でも閲覧可 | test確定 |
+| DEC-06 | レクチャー分類 | test年`2026`、シリーズ`救急外来を乗り越えようシリーズ`、承認済み9テーマ分類・20タイトル、test講師`テスト講師`。実講師候補は未定 | 部分確定・実講師待ち |
+| DEC-07 | 役割 | MVP開始時は運営責任者がシステム／コンテンツ／会員管理を兼務、閲覧専用担当なし。副担当は制限付き外部権限表で指定 | 方針確定・非公開記録待ち |
+| DEC-08 | サポート | 公開予定`support@minhos-management.jp`、一次回答2営業日以内 | test確定・送受信未検証 |
+| DEC-19 | 問い合わせ方式 | サポートメールへの`mailto:`と案内文。問い合わせFormは作らない | test確定 |
+| DEC-21 | Ghost Portal | 氏名欄、対象Tier／Price、規約notice、必須同意checkbox、サポートメールを有効化。noticeは「月額1,100円（税込）の自動更新プランです。お申し込み前に利用規約とプライバシーポリシーをご確認ください。」 | test確定・実設定未実施 |
 
 ### 本番公開までに必要な決定
 
@@ -62,6 +74,8 @@
 
 MVPでは運営責任者が`system-owner`、`content-owner`、`member-ops`を兼務します。6サービスすべてで組織所有、または組織へ移管・復旧できる状態、個人別アカウント、2FA、共有ログインなしを必須とします。制限付き外部権限表には、主担当、副担当、復旧方法、個人別2FA、共有ログインなし、年次／担当交代時の棚卸し責任者、非秘密の証跡参照を記録します。副担当と復旧方法が確定するまでGate 1は完了にしません。
 
+承認済みの非公開Sheet名は`みんほす_運用権限・復旧台帳`、Git／会話で使用する値なしaliasは`GDRIVE-MINHOS-OPS-001`です。native Google Sheetの2タブは作成済みで、connectorとブラウザの双方で非公開をread-backしました。Sheet自体を公開する意味ではありません。責任者が副担当と復旧情報を非公開で直接記入し、6サービスを確認するまでGate 1は`OPEN`です。
+
 ## Gate 2 — 秘密情報境界
 
 Script Propertiesへ置く秘密値は次の2つだけです。Google OAuth／Script authorization、DNS資格情報、2FA／復旧コード、YouTube／Dropboxログインも秘密ですが、各サービス側で管理し、Script Propertiesや実装へ取り込みません。
@@ -76,20 +90,19 @@ Script Propertiesへ置く秘密値は次の2つだけです。Google OAuth／Sc
 - Script編集者はsystem-ownerだけとし、Sheet編集者がScript Propertiesを取得できない構成にする。
 - 鍵は年1回、担当交代時、漏えい疑い時にローテーションする。値はCodex、チャット、Git、Sheet、ログへ渡さない。
 
-## test接続開始時に一度だけ受け取る回答
+Gate 2は二段階で扱います。`pre-entry boundary`は、値なし台帳の保管者・保管区分・各credentialの種類・最小scope・test/live分離・rotation／失効方法を責任者が確認すれば完了できます。秘密値の実設定は要求しません。`runtime verification`はGate 3でtest projectを作成し、本人が秘密値を直接入力した後、Codexが値を読み出さず存在・権限・環境分離だけをread-backします。現在はpre-entryの責任者確認待ちなのでGate 2は`OPEN`です。
 
-次のブロックを埋めて返信すれば、test接続に適用するDEC、Gate 1、Gate 2、接続準備を一度に確認できます。秘密値、副担当者等の非公開個人名、実アカウントIDは書かないでください。公開予定の講師名は記載できます。
+## G0-T entry前に残る確認
 
-```text
-1. test適用の推奨案（DEC-01/03/04/05/06/07/08/19/21）：すべて承認／変更あり（変更点だけ）
-2. 月額税込価格：　　　　　　円（Tier名を変える場合：　　　　　　）
-3. 公開する組織所有サポートメール：　　　　　　。Portal noticeは「お申し込み前に利用規約とプライバシーポリシーをご確認ください。月額課金は解約するまで自動更新されます。」、公開URLは`/terms/`と`/privacy/`：承認／変更
-4. 本番の採用FQDN：
-5. 正式な初期開催年候補：　　　　　　、正式な初期テーマ候補：　　　　　　、正式な初期講師候補：　　　　　　。test fixtureでは`テスト年`／`テストテーマ`／`テスト講師`を使用：はい／いいえ
-6. 6サービスは組織所有または移管・復旧可能。主担当／副担当／復旧方法／個人別2FA／共有ログインなし／棚卸し責任者を制限付き外部権限表へ記録済み（非秘密の参照名：　　　　）：承認
-7. 値なし秘密台帳の保管者と場所を外部記録へ確定。Script Propertiesの秘密は2件だけ、Stripeは`rk_test_...`かつRead-only、その他の認証秘密はサービス側管理。test/live分離、年次／交代時rotation、漏えい疑い時の即時失効を承認：承認
-8. 本人がログイン／2FA／OAuthと鍵の作成・直接入力を行い、作成後の組織所有を確認する。Codexがtest専用Sheet／Form／Drive／Standalone Scriptの作成・設定、検証済みbundleのdeploy、`manualSync()`1回と必要時の一時`resumeSync`、backup後のisolated test Ghostへのtheme／routes適用を行うことを承認。`installMinhosTriggers()`と5つの永続trigger、実カード、本番課金、実会員の課金・権限変更は対象外。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectだけはtest環境内で作成可：承認／未完の準備
-```
+2026-08-31に当初の8項目は回答・承認済みであり、再回答は不要です。Portal noticeの正本は次の文言です。
+
+> 月額1,100円（税込）の自動更新プランです。お申し込み前に利用規約とプライバシーポリシーをご確認ください。
+
+残る作業は次の3点だけです。
+
+1. 公開可能な実講師の初期候補を確定する。
+2. 責任者が`GDRIVE-MINHOS-OPS-001`のGate 1タブへ6サービスの副担当・復旧情報を非公開で直接入力し、各行を確認する。
+3. 責任者が同SheetのGate 2値なしタブで、保管者・保管区分・最小scope・test/live分離・rotation／失効方法を確認する。秘密値は入力しない。実設定のruntime verificationはGate 3で行う。
 
 試験通知先は公開サポートメールと同じである必要はありません。個人アドレスをチャットへ転記せず、認証済み画面で運営責任者が直接確認・入力します。
 
@@ -107,7 +120,7 @@ Script Propertiesへ置く秘密値は次の2つだけです。Google OAuth／Sc
 7. 法務・税務・講師許諾の最終確認：済
 ```
 
-`まだ未定`または`未完`の項目は未決のまま追跡し、該当するGateを完了扱いにしません。8項目が揃っても`G0 Decision`は完了にせず、承認済み`G0-T`とGate 1／2の後にtest専用環境だけで開始します。readinessには`G0-T APPROVED`、`G0 OPEN`、`production NO_GO`を記録します。本番必須DEC未確定中は、架空会員と運営所有のダミー動画／PDF／URLだけを使い、実会員情報、既存講義資産、実YouTube／Dropbox共有URL、外部公開を扱いません。初回は`manualSync()`と必要時の一時`resumeSync`だけを許可します。環境／Account／allowlist／schema、通知、backup／restoreを確認し、trigger前のP1/P2が0になった後だけ、責任者の別承認で`installMinhosTriggers()`と5つの永続triggerを作ります。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内で作成できますが、同期実装からGhost／Stripeへは書き込みません。実データや実教材を扱う場合は該当DECを先に承認します。
+`まだ未定`または`未完`の項目は未決のまま追跡し、該当するGateを完了扱いにしません。上記3点が揃っても`G0 Decision`は完了にせず、承認済み`G0-T`とGate 1／Gate 2 pre-entry boundaryの後にtest専用環境だけで開始します。readinessには`G0-T APPROVED`、`G0 OPEN`、`production NO_GO`を記録します。本番必須DEC未確定中は、架空会員と運営所有のダミー動画／PDF／URLだけを使い、実会員情報、既存講義資産、実YouTube／Dropbox共有URL、外部公開を扱いません。初回は`manualSync()`と必要時の一時`resumeSync`だけを許可します。環境／Account／allowlist／schema、通知、backup／restoreを確認し、永続trigger導入前のP1/P2が0になった後だけ、責任者の別承認で`installMinhosTriggers()`と5つの永続triggerを作ります。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内で作成できますが、同期実装からGhost／Stripeへは書き込みません。実データや実教材を扱う場合は該当DECを先に承認します。
 
 ## 承認後にCodexが行うこと
 

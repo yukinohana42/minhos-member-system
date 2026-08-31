@@ -8,9 +8,10 @@
 
 ## 現在の停止位置
 
-- ローカル実装、fixture試験、秘密情報検査、配布物生成、最新`main`のGitHub CI／artifact／保護・security read-backは合格済み。現在は外部`G0-T`のtest適用判断、Gate 1の所有者・復旧担当、Gate 2の秘密情報境界を確定する前で停止している。完全なGate 0とproductionは未完のまま維持する。
+- ローカル実装、fixture試験、秘密情報検査、配布物生成、最新`main`のGitHub CI／artifact／保護・security read-backは合格済み。2026-08-31に`G0-T`の作業範囲、推奨設定、項目8、Gate 1／2の方針が承認された。非公開台帳`みんほす_運用権限・復旧台帳`（値なしalias `GDRIVE-MINHOS-OPS-001`）のnative Google Sheetと2タブは作成済みで、connectorとブラウザの双方で非公開をread-backした。現在は責任者による副担当・復旧情報とGate 2 pre-entry境界の非公開入力・確認前で停止している。DEC-06の実講師候補とDEC-07／Gate 1／Gate 2 pre-entry証跡が未完なので、`G0-T` entry、完全なGate 0、productionは未完のまま維持する。秘密値の実設定とruntime verificationはGate 3で行う。
 - 最初はStripe test modeと専用の試験Spreadsheet／Form／Driveフォルダを使用する。
-- `G0-T`中は架空会員と運営所有のダミー教材だけを使う。初回は`manualSync()`と必要時の一時`resumeSync`だけを許可し、環境／Account／allowlist／schema、通知、backup／restoreを確認してtrigger前のP1/P2が0になった後だけ、`installMinhosTriggers()`が作る5つの永続triggerを別承認する。本番Stripe、実会員データ、既存講義資産、実YouTube／Dropbox共有URL、本番公開はtest mode受入後まで有効化・投入しない。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内だけで作成でき、同期実装からGhost／Stripeへは書き込まない。
+- `G0-T`中は架空会員と運営所有のダミー教材だけを使う。初回は`manualSync()`と必要時の一時`resumeSync`だけを許可し、環境／Account／allowlist／schema、通知、backup／restoreを確認して永続trigger導入前のP1/P2が0になった後だけ、`installMinhosTriggers()`が作る5つの永続triggerを別承認する。本番Stripe、実会員データ、既存講義資産、実YouTube／Dropbox共有URL、本番公開はtest mode受入後まで有効化・投入しない。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内だけで作成でき、同期実装からGhost／Stripeへは書き込まない。
+- 会員サイト予定FQDNは`members.minhos-management.jp`、親ドメインは`minhos-management.jp`。本番DNSは変更せずGate 5まで保留する。Tierは`みんほす会員`、月額1,100円（税込）、年額なし。公開予定サポートは`support@minhos-management.jp`だが、mailbox所有・送受信は未検証である。
 
 ## 責任者が一度に行う操作
 
