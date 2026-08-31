@@ -40,7 +40,8 @@
       "credentialNames": ["SPREADSHEET_ID", "OPS_NOTIFICATION_EMAIL", "BACKUP_FOLDER_ID", "BACKUP_RETENTION_DAYS", "BACKUP_MONTHLY_RETENTION_DAYS", "GOOGLE_FORM_ID", "PROFILE_EMAIL_ITEM_TITLE", "PROFILE_AFFILIATION_ITEM_TITLE", "PROFILE_TITLE_OR_ROLE_ITEM_TITLE", "PROFILE_PARTICIPANT_TYPE_ITEM_TITLE", "PROFILE_PRIVACY_ACK_ITEM_TITLE", "MAX_RUNTIME_MS", "BILLING_WATERMARK_OVERLAP_SECONDS", "SCHEMA_VERSION", "CODE_VERSION"],
       "scriptPropertyNames": ["SPREADSHEET_ID", "OPS_NOTIFICATION_EMAIL", "BACKUP_FOLDER_ID", "BACKUP_RETENTION_DAYS", "BACKUP_MONTHLY_RETENTION_DAYS", "GOOGLE_FORM_ID", "PROFILE_EMAIL_ITEM_TITLE", "PROFILE_AFFILIATION_ITEM_TITLE", "PROFILE_TITLE_OR_ROLE_ITEM_TITLE", "PROFILE_PARTICIPANT_TYPE_ITEM_TITLE", "PROFILE_PRIVACY_ACK_ITEM_TITLE", "MAX_RUNTIME_MS", "BILLING_WATERMARK_OVERLAP_SECONDS", "SCHEMA_VERSION", "CODE_VERSION"],
       "credentialOwner": "system-owner",
-      "initialActions": ["create-standalone-script", "create-sheet-tabs", "protect-system-columns", "create-org-owned-backup-folder", "install-hourly-nightly-triggers"],
+      "initialActions": ["create-standalone-script", "create-sheet-tabs", "protect-system-columns", "create-org-owned-backup-folder", "run-manual-sync-once", "allow-temporary-resume-sync-only-if-runtime-limited"],
+      "deferredActionsRequiringSeparateApproval": ["install-hourly-sync-trigger", "install-nightly-sync-trigger", "install-daily-backup-trigger", "install-monthly-backup-trigger", "install-profile-form-submit-trigger"],
       "readOnlyChecks": ["spreadsheet-id", "tab-schema", "protected-ranges", "script-owner", "trigger-list"],
       "productionActionsRequiringApproval": ["share-sheet", "change-script-owner", "edit-script-properties", "delete-response-or-backup"]
     },

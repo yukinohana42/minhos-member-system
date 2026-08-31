@@ -42,7 +42,9 @@ Ghost(Pro) の会員サイト、Stripe 課金、Google Sheets/Form 運用台帳�
 5. YouTube/Dropbox URL再共有リスクの受容とリンク停止責任者。
 6. Google Form項目、シート共有範囲、バックアップ先、保持期間。
 
-隔離testへは、要件書20.1のDEC、Gate 1、Gate 2を確定した`G0-T`で進められる。これはGate 0完了ではなく、架空会員・ダミー教材・test専用資源・非公開・初回`manualSync()`1回と必要時の一時`resumeSync`だけに限定する。要件書20.2のDECが未確定の間は実会員、既存講義資産、実外部URL、本番操作を扱わず、productionを`NO_GO`とする。環境／Account／allowlist／schema、通知、backup／restoreを確認し、trigger前のP1/P2が0になった後だけ、責任者の別承認で`installMinhosTriggers()`と5つの永続triggerを作る。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内だけで作成できるが、同期実装からGhost／Stripeへは書き込まない。
+隔離testへは、要件書20.1のDEC、Gate 1、Gate 2 pre-entry boundaryを確定した`G0-T`で進められる。これはGate 0完了ではなく、架空会員・ダミー教材・test専用資源・非公開・初回`manualSync()`1回と必要時の一時`resumeSync`だけに限定する。要件書20.2のDECが未確定の間は実会員、既存講義資産、実外部URL、本番操作を扱わず、productionを`NO_GO`とする。環境／Account／allowlist／schema、通知、backup／restoreを確認し、永続trigger導入前のP1/P2が0になった後だけ、責任者の別承認で`installMinhosTriggers()`と5つの永続triggerを作る。承認済みGate 3ケースのisolated Ghost test会員／Stripe test objectはtest環境内だけで作成できるが、同期実装からGhost／Stripeへは書き込まない。
+
+2026-08-31に`G0-T`の作業範囲と項目8は承認済み。予定FQDNは`members.minhos-management.jp`、Tierは`みんほす会員`・月額1,100円（税込）、公開予定サポートは`support@minhos-management.jp`、test分類は年`2026`・シリーズ`救急外来を乗り越えようシリーズ`・9テーマ・20タイトル・講師`テスト講師`。非公開台帳`みんほす_運用権限・復旧台帳`（値なし参照alias `GDRIVE-MINHOS-OPS-001`）のnative Google Sheetと2タブを作成し、非公開をconnector／ブラウザでread-back済み。ただしDEC-06の実講師候補、DEC-07／Gate 1の非公開副担当・復旧記録、Gate 2 pre-entry境界の本人確認が未完のため、`G0-T` entryは`PENDING_PREREQUISITES`。秘密値の実設定はentry後のGate 3で本人が直接行い、Codexは値を読み出さず存在・権限・環境分離だけを確認する。証跡は`docs/evidence/records/external-gates-0-2-approval-20260831.md`を参照する。
 
 ## Risk boundaries
 
