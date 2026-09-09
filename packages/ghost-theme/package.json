@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "fflate": "0.8.3",
-    "gscan": "6.4.2"
+    "gscan": "6.6.0"
   },
   "config": {
     "posts_per_page": 12,
